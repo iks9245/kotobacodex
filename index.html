@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#09090b">
+  <title>ことば - 滑動學日語</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --card: #151519;
+      --card-strong: #1c1c22;
+      --primary: #f97316;
+      --primary-soft: rgba(249, 115, 22, 0.16);
+      --success: #22c55e;
+      --success-soft: rgba(34, 197, 94, 0.14);
+      --danger: #ef4444;
+      --text: #f0ece4;
+      --muted: #6b6975;
+      --border: #2a2a34;
+      --shadow: rgba(0, 0, 0, 0.36);
+      --topbar: rgba(9, 9, 11, 0.82);
+      --focus: rgba(249, 115, 22, 0.35);
+      --radius: 8px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      color-scheme: dark;
+    }
+
+    [data-theme="light"] {
+      --bg: #faf9f7;
+      --card: #ffffff;
+      --card-strong: #f3f1ed;
+      --primary: #ea580c;
+      --primary-soft: rgba(234, 88, 12, 0.13);
+      --success: #16a34a;
+      --success-soft: rgba(22, 163, 74, 0.12);
+      --danger: #dc2626;
+      --text: #24211d;
+      --muted: #777168;
+      --border: #e3ded7;
+      --shadow: rgba(36, 33, 29, 0.12);
+      --topbar: rgba(250, 249, 247, 0.86);
+      --focus: rgba(234, 88, 12, 0.25);
+      color-scheme: light;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100%;
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% -18%, rgba(249, 115, 22, 0.12), transparent 34rem),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
+      color: var(--text);
+      font-family: "Noto Sans TC", "Noto Sans JP", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: calc(64px + env(safe-area-inset-top));
+      padding: env(safe-area-inset-top) 16px 0;
+      background: var(--topbar);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(100%, 460px);
+      height: 64px;
+      margin: 0 auto;
+    }
+
+    .brand-button {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .brand-main {
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .brand-sub {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-button {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 10px 24px transparent;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .icon-button:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--primary), var(--border) 58%);
+      box-shadow: 0 12px 24px var(--shadow);
+    }
+
+    .app-main {
+      width: min(100%, 460px);
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: calc(84px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+    }
+
+    .view {
+      animation: viewIn 0.28s var(--ease-out) both;
+    }
+
+    @keyframes viewIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .home-hero {
+      display: grid;
+      gap: 18px;
+      padding: 10px 0 22px;
+    }
+
+    .today-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .home-title {
+      margin: 0;
+      font-family: "Noto Sans JP", "Noto Sans TC", sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 0.95;
+    }
+
+    .home-title span {
+      display: block;
+      margin-top: 8px;
+      color: var(--primary);
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .primary-action,
+    .secondary-action,
+    .danger-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 18px;
+      border-radius: var(--radius);
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .primary-action {
+      background: var(--primary);
+      color: #111;
+      box-shadow: 0 14px 30px rgba(249, 115, 22, 0.22);
+    }
+
+    .secondary-action {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+    }
+
+    .danger-action {
+      border: 1px solid color-mix(in srgb, var(--danger), var(--border) 45%);
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--danger);
+    }
+
+    .primary-action:hover,
+    .secondary-action:hover,
+    .danger-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px var(--shadow);
+    }
+
+    .primary-action:disabled,
+    .secondary-action:disabled,
+    .danger-action:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 8px 0 18px;
+    }
+
+    .stat-card {
+      min-height: 112px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+
+    .stat-label {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .stat-unit {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .progress-card {
+      grid-row: span 2;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .progress-ring {
+      display: grid;
+      place-items: center;
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) calc(var(--progress) * 1%), var(--border) 0);
+      transition: background 0.5s ease;
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+
+    .progress-ring-inner {
+      display: grid;
+      place-items: center;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--card);
+    }
+
+    .progress-ring strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .progress-ring span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .week-panel,
+    .settings-panel,
+    .complete-panel {
+      margin-top: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 14px;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .week-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 7px;
+    }
+
+    .day-pill {
+      display: grid;
+      place-items: center;
+      min-height: 54px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .day-pill.active {
+      border-color: color-mix(in srgb, var(--success), var(--border) 35%);
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .day-pill.today {
+      box-shadow: inset 0 -3px 0 var(--primary);
+    }
+
+    .day-pill span {
+      display: block;
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .study-view {
+      display: grid;
+      min-height: calc(100vh - 108px - env(safe-area-inset-top));
+      min-height: calc(100dvh - 108px - env(safe-area-inset-top));
+      grid-template-rows: auto 1fr auto;
+      gap: 16px;
+    }
+
+    .study-status {
+      display: grid;
+      gap: 10px;
+    }
+
+    .study-status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .progress-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: var(--border);
+    }
+
+    .progress-fill {
+      width: var(--width);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+      transition: width 0.5s ease;
+    }
+
+    .card-stage {
+      display: grid;
+      place-items: center;
+      min-height: 560px;
+      perspective: 1200px;
+    }
+
+    .study-card {
+      width: 100%;
+      max-width: 420px;
+      min-height: 520px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 24px 60px var(--shadow);
+      transform: translateY(0) rotate(0);
+      transition: transform 0.4s var(--ease-out), opacity 0.4s var(--ease-out), border-color 0.18s ease;
+      will-change: transform, opacity;
+      touch-action: pan-y;
+    }
+
+    .study-card.entering {
+      transform: translateY(100vh);
+    }
+
+    .study-card.exiting-up {
+      opacity: 0;
+      transform: translateY(-120vh) rotate(-5deg);
+    }
+
+    .study-card:hover {
+      border-color: color-mix(in srgb, var(--primary), var(--border) 58%);
+    }
+
+    .card-front {
+      display: grid;
+      min-height: 268px;
+      align-content: center;
+      justify-items: center;
+      gap: 12px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .type-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .type-tag,
+    .tag-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid color-mix(in srgb, var(--primary), var(--border) 48%);
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .word-kanji {
+      margin: 8px 0 0;
+      color: var(--text);
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1;
+      overflow-wrap: anywhere;
+      text-align: center;
+    }
+
+    .word-kanji.compact {
+      font-size: 60px;
+    }
+
+    .word-reading {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1.25;
+    }
+
+    .speak-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--card-strong);
+      color: var(--text);
+      font-size: 20px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .speak-button:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 26px var(--shadow);
+    }
+
+    .reveal-panel {
+      max-height: 0;
+      margin-top: 0;
+      opacity: 0;
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      transition: max-height 0.38s var(--ease-out), opacity 0.28s ease, border-color 0.25s ease, margin-top 0.25s ease;
+    }
+
+    .study-card.revealed .reveal-panel,
+    .reveal-panel.revealed {
+      max-height: 640px;
+      margin-top: 14px;
+      border-top-color: var(--border);
+      opacity: 1;
+    }
+
+    .meaning-cn {
+      margin: 18px 0 14px;
+      color: var(--success);
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.18;
+      text-align: center;
+    }
+
+    .example-box {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+    }
+
+    .example-ja {
+      margin: 0;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    rt {
+      color: var(--muted);
+      font-size: 0.58em;
+      font-weight: 500;
+    }
+
+    .example-cn {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .answer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .remember-button,
+    .unsure-button {
+      min-height: 52px;
+      border-radius: var(--radius);
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .remember-button {
+      background: var(--success);
+      color: #07150c;
+      box-shadow: 0 12px 28px rgba(34, 197, 94, 0.18);
+    }
+
+    .unsure-button {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+    }
+
+    .remember-button:hover,
+    .unsure-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px var(--shadow);
+    }
+
+    .study-hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .settings-view {
+      display: grid;
+      gap: 14px;
+    }
+
+    .settings-panel {
+      display: grid;
+      gap: 18px;
+    }
+
+    .setting-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .setting-label {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .segmented,
+    .chip-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .segment-button,
+    .filter-button {
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .segment-button.active,
+    .filter-button.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .segment-button:hover,
+    .filter-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px var(--shadow);
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 52px;
+    }
+
+    .switch {
+      position: relative;
+      width: 58px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card-strong);
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--text);
+      transition: transform 0.22s var(--ease-out), background 0.18s ease;
+    }
+
+    .switch.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .switch.active::after {
+      transform: translateX(24px);
+      background: var(--primary);
+    }
+
+    .settings-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .complete-view {
+      display: grid;
+      min-height: calc(100vh - 108px - env(safe-area-inset-top));
+      min-height: calc(100dvh - 108px - env(safe-area-inset-top));
+      align-content: center;
+      gap: 16px;
+    }
+
+    .complete-panel {
+      display: grid;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .complete-title {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .complete-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .complete-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .complete-stat {
+      min-height: 88px;
+      padding: 12px 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+    }
+
+    .complete-stat strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .complete-stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .empty-state {
+      display: grid;
+      gap: 14px;
+      padding: 28px 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      text-align: center;
+    }
+
+    .empty-state h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .empty-state p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 80;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      max-width: min(420px, calc(100vw - 32px));
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 16px 36px var(--shadow);
+      font-size: 13px;
+      font-weight: 800;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 18px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 360px) {
+      .app-main {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .home-title {
+        font-size: 38px;
+      }
+
+      .word-kanji {
+        font-size: 64px;
+      }
+
+      .word-kanji.compact {
+        font-size: 54px;
+      }
+
+      .study-card {
+        padding: 18px;
+      }
+
+      .answer-actions,
+      .complete-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="brand-button" type="button" data-action="go-home" aria-label="回到首頁">
+          <span class="brand-main">ことば</span>
+          <span class="brand-sub">滑動學日語</span>
+        </button>
+        <div class="nav-actions">
+          <button class="icon-button" type="button" data-action="toggle-theme" aria-label="切換主題" title="切換主題">☾</button>
+          <button class="icon-button" type="button" data-action="open-settings" aria-label="設定" title="設定">⚙</button>
+        </div>
+      </div>
+    </header>
+    <main id="app" class="app-main" aria-live="polite"></main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const STORAGE_KEY = "kotoba.study.v1";
+      const GOALS = [5, 10, 15, 20];
+      const FILTER_TYPES = ["動詞", "名詞", "い形容", "な形容", "副詞"];
+      const ENCOURAGEMENTS = [
+        "今天的日語感覺更近了一點。",
+        "穩穩累積，比一次背很多更可靠。",
+        "你剛剛替未來的自己省下了一點力氣。",
+        "好節奏，明天再把記憶接上。",
+        "一張一張來，語感會慢慢長出來。"
+      ];
+
+      const Vocabulary = [
+        { id: "taberu", kanji: "食べる", reading: "たべる", meaning: "吃", type: "動詞", example: "<ruby>朝<rt>あさ</rt></ruby>ごはんを<ruby>食<rt>た</rt></ruby>べます。", exampleCn: "我吃早餐。", tags: ["日常", "飲食"] },
+        { id: "nomu", kanji: "飲む", reading: "のむ", meaning: "喝", type: "動詞", example: "<ruby>水<rt>みず</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みます。", exampleCn: "我喝水。", tags: ["日常", "飲食"] },
+        { id: "iku", kanji: "行く", reading: "いく", meaning: "去", type: "動詞", example: "<ruby>学校<rt>がっこう</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。", exampleCn: "我去學校。", tags: ["日常", "學校", "旅遊"] },
+        { id: "kuru", kanji: "来る", reading: "くる", meaning: "來", type: "動詞", example: "<ruby>友達<rt>ともだち</rt></ruby>が<ruby>家<rt>いえ</rt></ruby>に<ruby>来<rt>き</rt></ruby>ます。", exampleCn: "朋友會來我家。", tags: ["日常"] },
+        { id: "miru", kanji: "見る", reading: "みる", meaning: "看", type: "動詞", example: "<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。", exampleCn: "我看電影。", tags: ["日常"] },
+        { id: "kiku", kanji: "聞く", reading: "きく", meaning: "聽；問", type: "動詞", example: "<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>きます。", exampleCn: "我聽音樂。", tags: ["日常"] },
+        { id: "hanasu", kanji: "話す", reading: "はなす", meaning: "說話", type: "動詞", example: "<ruby>先生<rt>せんせい</rt></ruby>と<ruby>話<rt>はな</rt></ruby>します。", exampleCn: "我和老師說話。", tags: ["學校", "日常"] },
+        { id: "yomu", kanji: "読む", reading: "よむ", meaning: "讀", type: "動詞", example: "<ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みます。", exampleCn: "我讀書。", tags: ["學校", "日常"] },
+        { id: "kaku", kanji: "書く", reading: "かく", meaning: "寫", type: "動詞", example: "<ruby>名前<rt>なまえ</rt></ruby>を<ruby>書<rt>か</rt></ruby>きます。", exampleCn: "我寫名字。", tags: ["學校", "日常"] },
+        { id: "kau", kanji: "買う", reading: "かう", meaning: "買", type: "動詞", example: "<ruby>駅<rt>えき</rt></ruby>で<ruby>切符<rt>きっぷ</rt></ruby>を<ruby>買<rt>か</rt></ruby>います。", exampleCn: "我在車站買票。", tags: ["旅遊", "日常"] },
+        { id: "tsukau", kanji: "使う", reading: "つかう", meaning: "使用", type: "動詞", example: "<ruby>電話<rt>でんわ</rt></ruby>を<ruby>使<rt>つか</rt></ruby>います。", exampleCn: "我使用電話。", tags: ["日常"] },
+        { id: "shiru", kanji: "知る", reading: "しる", meaning: "知道", type: "動詞", example: "<ruby>答<rt>こた</rt></ruby>えを<ruby>知<rt>し</rt></ruby>っています。", exampleCn: "我知道答案。", tags: ["學校", "日常"] },
+        { id: "sumu", kanji: "住む", reading: "すむ", meaning: "居住", type: "動詞", example: "<ruby>東京<rt>とうきょう</rt></ruby>に<ruby>住<rt>す</rt></ruby>んでいます。", exampleCn: "我住在東京。", tags: ["日常"] },
+        { id: "hashiru", kanji: "走る", reading: "はしる", meaning: "跑", type: "動詞", example: "<ruby>公園<rt>こうえん</rt></ruby>を<ruby>走<rt>はし</rt></ruby>ります。", exampleCn: "我在公園跑步。", tags: ["日常"] },
+        { id: "aruku", kanji: "歩く", reading: "あるく", meaning: "走路", type: "動詞", example: "<ruby>駅<rt>えき</rt></ruby>まで<ruby>歩<rt>ある</rt></ruby>きます。", exampleCn: "我走到車站。", tags: ["日常", "旅遊"] },
+        { id: "kaeru", kanji: "帰る", reading: "かえる", meaning: "回去", type: "動詞", example: "<ruby>家<rt>いえ</rt></ruby>に<ruby>帰<rt>かえ</rt></ruby>ります。", exampleCn: "我回家。", tags: ["日常"] },
+        { id: "neru", kanji: "寝る", reading: "ねる", meaning: "睡覺", type: "動詞", example: "<ruby>十一時<rt>じゅういちじ</rt></ruby>に<ruby>寝<rt>ね</rt></ruby>ます。", exampleCn: "我十一點睡覺。", tags: ["日常", "時間"] },
+        { id: "okiru", kanji: "起きる", reading: "おきる", meaning: "起床", type: "動詞", example: "<ruby>朝<rt>あさ</rt></ruby><ruby>六時<rt>ろくじ</rt></ruby>に<ruby>起<rt>お</rt></ruby>きます。", exampleCn: "我早上六點起床。", tags: ["日常", "時間"] },
+        { id: "matsu", kanji: "待つ", reading: "まつ", meaning: "等待", type: "動詞", example: "<ruby>駅<rt>えき</rt></ruby>で<ruby>友達<rt>ともだち</rt></ruby>を<ruby>待<rt>ま</rt></ruby>ちます。", exampleCn: "我在車站等朋友。", tags: ["日常", "旅遊"] },
+        { id: "tsukuru", kanji: "作る", reading: "つくる", meaning: "製作", type: "動詞", example: "<ruby>晩<rt>ばん</rt></ruby>ごはんを<ruby>作<rt>つく</rt></ruby>ります。", exampleCn: "我做晚餐。", tags: ["日常", "飲食"] },
+        { id: "arau", kanji: "洗う", reading: "あらう", meaning: "洗", type: "動詞", example: "<ruby>手<rt>て</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>います。", exampleCn: "我洗手。", tags: ["日常"] },
+        { id: "akeru", kanji: "開ける", reading: "あける", meaning: "打開", type: "動詞", example: "<ruby>窓<rt>まど</rt></ruby>を<ruby>開<rt>あ</rt></ruby>けます。", exampleCn: "我打開窗戶。", tags: ["日常"] },
+        { id: "shimeru", kanji: "閉める", reading: "しめる", meaning: "關上", type: "動詞", example: "<ruby>ドア<rt>どあ</rt></ruby>を<ruby>閉<rt>し</rt></ruby>めます。", exampleCn: "我關門。", tags: ["日常"] },
+        { id: "oshieru", kanji: "教える", reading: "おしえる", meaning: "教；告訴", type: "動詞", example: "<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えます。", exampleCn: "我教日文。", tags: ["學校"] },
+        { id: "oboeru", kanji: "覚える", reading: "おぼえる", meaning: "記住", type: "動詞", example: "<ruby>新<rt>あたら</rt></ruby>しい<ruby>言葉<rt>ことば</rt></ruby>を<ruby>覚<rt>おぼ</rt></ruby>えます。", exampleCn: "我記住新的單字。", tags: ["學校", "日常"] },
+
+        { id: "tomodachi", kanji: "友達", reading: "ともだち", meaning: "朋友", type: "名詞", example: "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。", exampleCn: "我和朋友看電影。", tags: ["日常"] },
+        { id: "sensei", kanji: "先生", reading: "せんせい", meaning: "老師", type: "名詞", example: "<ruby>先生<rt>せんせい</rt></ruby>は<ruby>優<rt>やさ</rt></ruby>しいです。", exampleCn: "老師很溫柔。", tags: ["學校"] },
+        { id: "gakusei", kanji: "学生", reading: "がくせい", meaning: "學生", type: "名詞", example: "<ruby>私<rt>わたし</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>です。", exampleCn: "我是學生。", tags: ["學校"] },
+        { id: "jikan", kanji: "時間", reading: "じかん", meaning: "時間", type: "名詞", example: "<ruby>時間<rt>じかん</rt></ruby>があります。", exampleCn: "有時間。", tags: ["時間", "日常"] },
+        { id: "kyou", kanji: "今日", reading: "きょう", meaning: "今天", type: "名詞", example: "<ruby>今日<rt>きょう</rt></ruby>は<ruby>暑<rt>あつ</rt></ruby>いです。", exampleCn: "今天很熱。", tags: ["時間", "日常"] },
+        { id: "ashita", kanji: "明日", reading: "あした", meaning: "明天", type: "名詞", example: "<ruby>明日<rt>あした</rt></ruby>、<ruby>学校<rt>がっこう</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。", exampleCn: "明天我去學校。", tags: ["時間"] },
+        { id: "kinou", kanji: "昨日", reading: "きのう", meaning: "昨天", type: "名詞", example: "<ruby>昨日<rt>きのう</rt></ruby>は<ruby>雨<rt>あめ</rt></ruby>でした。", exampleCn: "昨天是雨天。", tags: ["時間"] },
+        { id: "gakkou", kanji: "学校", reading: "がっこう", meaning: "學校", type: "名詞", example: "<ruby>学校<rt>がっこう</rt></ruby>は<ruby>駅<rt>えき</rt></ruby>の<ruby>近<rt>ちか</rt></ruby>くです。", exampleCn: "學校在車站附近。", tags: ["學校"] },
+        { id: "eki", kanji: "駅", reading: "えき", meaning: "車站", type: "名詞", example: "<ruby>駅<rt>えき</rt></ruby>で<ruby>電車<rt>でんしゃ</rt></ruby>を<ruby>待<rt>ま</rt></ruby>ちます。", exampleCn: "我在車站等電車。", tags: ["旅遊"] },
+        { id: "byouin", kanji: "病院", reading: "びょういん", meaning: "醫院", type: "名詞", example: "<ruby>病院<rt>びょういん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。", exampleCn: "我去醫院。", tags: ["日常"] },
+        { id: "densha", kanji: "電車", reading: "でんしゃ", meaning: "電車", type: "名詞", example: "<ruby>電車<rt>でんしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>ります。", exampleCn: "我搭電車。", tags: ["旅遊"] },
+        { id: "hon", kanji: "本", reading: "ほん", meaning: "書", type: "名詞", example: "<ruby>新<rt>あたら</rt></ruby>しい<ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みます。", exampleCn: "我讀新書。", tags: ["學校", "日常"] },
+        { id: "mizu", kanji: "水", reading: "みず", meaning: "水", type: "名詞", example: "<ruby>冷<rt>つめ</rt></ruby>たい<ruby>水<rt>みず</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みます。", exampleCn: "我喝冷水。", tags: ["飲食"] },
+        { id: "neko", kanji: "猫", reading: "ねこ", meaning: "貓", type: "名詞", example: "<ruby>猫<rt>ねこ</rt></ruby>が<ruby>部屋<rt>へや</rt></ruby>にいます。", exampleCn: "貓在房間裡。", tags: ["日常"] },
+        { id: "inu", kanji: "犬", reading: "いぬ", meaning: "狗", type: "名詞", example: "<ruby>犬<rt>いぬ</rt></ruby>と<ruby>公園<rt>こうえん</rt></ruby>を<ruby>歩<rt>ある</rt></ruby>きます。", exampleCn: "我和狗在公園散步。", tags: ["日常"] },
+        { id: "tenki", kanji: "天気", reading: "てんき", meaning: "天氣", type: "名詞", example: "<ruby>今日<rt>きょう</rt></ruby>の<ruby>天気<rt>てんき</rt></ruby>はいいです。", exampleCn: "今天的天氣很好。", tags: ["日常"] },
+        { id: "denwa", kanji: "電話", reading: "でんわ", meaning: "電話", type: "名詞", example: "<ruby>母<rt>はは</rt></ruby>に<ruby>電話<rt>でんわ</rt></ruby>をします。", exampleCn: "我打電話給媽媽。", tags: ["日常"] },
+        { id: "kazoku", kanji: "家族", reading: "かぞく", meaning: "家人", type: "名詞", example: "<ruby>家族<rt>かぞく</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>します。", exampleCn: "我和家人旅行。", tags: ["日常", "旅遊"] },
+        { id: "hana", kanji: "花", reading: "はな", meaning: "花", type: "名詞", example: "<ruby>庭<rt>にわ</rt></ruby>に<ruby>花<rt>はな</rt></ruby>があります。", exampleCn: "庭院裡有花。", tags: ["日常"] },
+        { id: "yama", kanji: "山", reading: "やま", meaning: "山", type: "名詞", example: "<ruby>山<rt>やま</rt></ruby>が<ruby>見<rt>み</rt></ruby>えます。", exampleCn: "看得到山。", tags: ["旅遊"] },
+        { id: "umi", kanji: "海", reading: "うみ", meaning: "海", type: "名詞", example: "<ruby>夏<rt>なつ</rt></ruby>に<ruby>海<rt>うみ</rt></ruby>へ<ruby>行<rt>い</rt></ruby>きます。", exampleCn: "夏天我去海邊。", tags: ["旅遊"] },
+        { id: "tenkiyohou", kanji: "天気予報", reading: "てんきよほう", meaning: "天氣預報", type: "名詞", example: "<ruby>天気予報<rt>てんきよほう</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。", exampleCn: "我看天氣預報。", tags: ["日常"] },
+        { id: "shigoto", kanji: "仕事", reading: "しごと", meaning: "工作", type: "名詞", example: "<ruby>今日<rt>きょう</rt></ruby>は<ruby>仕事<rt>しごと</rt></ruby>があります。", exampleCn: "今天有工作。", tags: ["日常"] },
+        { id: "kaisha", kanji: "会社", reading: "かいしゃ", meaning: "公司", type: "名詞", example: "<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>駅<rt>えき</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>です。", exampleCn: "公司在車站前面。", tags: ["日常"] },
+        { id: "mondai", kanji: "問題", reading: "もんだい", meaning: "問題", type: "名詞", example: "<ruby>問題<rt>もんだい</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みます。", exampleCn: "我讀題目。", tags: ["學校"] },
+
+        { id: "ookii", kanji: "大きい", reading: "おおきい", meaning: "大的", type: "い形容", example: "<ruby>大<rt>おお</rt></ruby>きい<ruby>家<rt>いえ</rt></ruby>です。", exampleCn: "是很大的房子。", tags: ["日常"] },
+        { id: "chiisai", kanji: "小さい", reading: "ちいさい", meaning: "小的", type: "い形容", example: "<ruby>小<rt>ちい</rt></ruby>さい<ruby>猫<rt>ねこ</rt></ruby>がいます。", exampleCn: "有一隻小貓。", tags: ["日常"] },
+        { id: "atarashii", kanji: "新しい", reading: "あたらしい", meaning: "新的", type: "い形容", example: "<ruby>新<rt>あたら</rt></ruby>しい<ruby>靴<rt>くつ</rt></ruby>を<ruby>買<rt>か</rt></ruby>います。", exampleCn: "我買新鞋。", tags: ["日常"] },
+        { id: "furui", kanji: "古い", reading: "ふるい", meaning: "舊的", type: "い形容", example: "<ruby>古<rt>ふる</rt></ruby>い<ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みます。", exampleCn: "我讀舊書。", tags: ["日常"] },
+        { id: "takai", kanji: "高い", reading: "たかい", meaning: "高的；貴的", type: "い形容", example: "この<ruby>時計<rt>とけい</rt></ruby>は<ruby>高<rt>たか</rt></ruby>いです。", exampleCn: "這隻手錶很貴。", tags: ["日常"] },
+        { id: "yasui", kanji: "安い", reading: "やすい", meaning: "便宜的", type: "い形容", example: "この<ruby>店<rt>みせ</rt></ruby>は<ruby>安<rt>やす</rt></ruby>いです。", exampleCn: "這家店很便宜。", tags: ["日常", "飲食"] },
+        { id: "suki", kanji: "好き", reading: "すき", meaning: "喜歡", type: "な形容", example: "<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>好<rt>す</rt></ruby>きです。", exampleCn: "我喜歡日文。", tags: ["日常"] },
+        { id: "tanoshii", kanji: "楽しい", reading: "たのしい", meaning: "開心的；有趣的", type: "い形容", example: "<ruby>旅行<rt>りょこう</rt></ruby>は<ruby>楽<rt>たの</rt></ruby>しいです。", exampleCn: "旅行很有趣。", tags: ["旅遊", "日常"] },
+        { id: "oishii", kanji: "美味しい", reading: "おいしい", meaning: "好吃的", type: "い形容", example: "この<ruby>料理<rt>りょうり</rt></ruby>は<ruby>美味<rt>おい</rt></ruby>しいです。", exampleCn: "這道料理很好吃。", tags: ["飲食"] },
+        { id: "genki", kanji: "元気", reading: "げんき", meaning: "有精神；健康", type: "な形容", example: "<ruby>祖母<rt>そぼ</rt></ruby>は<ruby>元気<rt>げんき</rt></ruby>です。", exampleCn: "祖母很有精神。", tags: ["日常"] },
+        { id: "samui", kanji: "寒い", reading: "さむい", meaning: "冷的", type: "い形容", example: "<ruby>冬<rt>ふゆ</rt></ruby>は<ruby>寒<rt>さむ</rt></ruby>いです。", exampleCn: "冬天很冷。", tags: ["日常"] },
+        { id: "atsui", kanji: "暑い", reading: "あつい", meaning: "熱的", type: "い形容", example: "<ruby>今日<rt>きょう</rt></ruby>は<ruby>暑<rt>あつ</rt></ruby>いです。", exampleCn: "今天很熱。", tags: ["日常"] },
+        { id: "isogashii", kanji: "忙しい", reading: "いそがしい", meaning: "忙碌的", type: "い形容", example: "<ruby>月曜日<rt>げつようび</rt></ruby>は<ruby>忙<rt>いそが</rt></ruby>しいです。", exampleCn: "星期一很忙。", tags: ["日常", "時間"] },
+        { id: "yasashii", kanji: "優しい", reading: "やさしい", meaning: "溫柔的", type: "い形容", example: "<ruby>姉<rt>あね</rt></ruby>は<ruby>優<rt>やさ</rt></ruby>しいです。", exampleCn: "姐姐很溫柔。", tags: ["日常"] },
+        { id: "kawaii", kanji: "可愛い", reading: "かわいい", meaning: "可愛的", type: "い形容", example: "<ruby>可愛<rt>かわい</rt></ruby>い<ruby>花<rt>はな</rt></ruby>ですね。", exampleCn: "是可愛的花呢。", tags: ["日常"] },
+
+        { id: "ichi", kanji: "一", reading: "いち", meaning: "一", type: "名詞", example: "<ruby>一<rt>いち</rt></ruby>から<ruby>十<rt>じゅう</rt></ruby>まで<ruby>数<rt>かぞ</rt></ruby>えます。", exampleCn: "從一數到十。", tags: ["數字"] },
+        { id: "ni", kanji: "二", reading: "に", meaning: "二", type: "名詞", example: "<ruby>二<rt>に</rt></ruby><ruby>人<rt>にん</rt></ruby>で<ruby>行<rt>い</rt></ruby>きます。", exampleCn: "兩個人一起去。", tags: ["數字"] },
+        { id: "san", kanji: "三", reading: "さん", meaning: "三", type: "名詞", example: "<ruby>三<rt>さん</rt></ruby><ruby>時<rt>じ</rt></ruby>に<ruby>会<rt>あ</rt></ruby>います。", exampleCn: "三點見面。", tags: ["數字", "時間"] },
+        { id: "ue", kanji: "上", reading: "うえ", meaning: "上面", type: "名詞", example: "<ruby>机<rt>つくえ</rt></ruby>の<ruby>上<rt>うえ</rt></ruby>に<ruby>本<rt>ほん</rt></ruby>があります。", exampleCn: "桌上有書。", tags: ["方位"] },
+        { id: "shita", kanji: "下", reading: "した", meaning: "下面", type: "名詞", example: "<ruby>椅子<rt>いす</rt></ruby>の<ruby>下<rt>した</rt></ruby>にかばんがあります。", exampleCn: "椅子下面有包包。", tags: ["方位"] },
+        { id: "mae", kanji: "前", reading: "まえ", meaning: "前面；之前", type: "名詞", example: "<ruby>駅<rt>えき</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>で<ruby>待<rt>ま</rt></ruby>ちます。", exampleCn: "我在車站前面等。", tags: ["方位", "旅遊"] },
+        { id: "ushiro", kanji: "後ろ", reading: "うしろ", meaning: "後面", type: "名詞", example: "<ruby>家<rt>いえ</rt></ruby>の<ruby>後<rt>うし</rt></ruby>ろに<ruby>山<rt>やま</rt></ruby>があります。", exampleCn: "家後面有山。", tags: ["方位"] },
+        { id: "migi", kanji: "右", reading: "みぎ", meaning: "右邊", type: "名詞", example: "<ruby>右<rt>みぎ</rt></ruby>へ<ruby>曲<rt>ま</rt></ruby>がってください。", exampleCn: "請向右轉。", tags: ["方位", "旅遊"] },
+        { id: "hidari", kanji: "左", reading: "ひだり", meaning: "左邊", type: "名詞", example: "<ruby>左<rt>ひだり</rt></ruby>に<ruby>学校<rt>がっこう</rt></ruby>があります。", exampleCn: "左邊有學校。", tags: ["方位"] },
+        { id: "naka", kanji: "中", reading: "なか", meaning: "裡面", type: "名詞", example: "<ruby>箱<rt>はこ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>に<ruby>花<rt>はな</rt></ruby>があります。", exampleCn: "箱子裡有花。", tags: ["方位"] },
+        { id: "soto", kanji: "外", reading: "そと", meaning: "外面", type: "名詞", example: "<ruby>外<rt>そと</rt></ruby>は<ruby>寒<rt>さむ</rt></ruby>いです。", exampleCn: "外面很冷。", tags: ["方位", "日常"] },
+        { id: "ima", kanji: "今", reading: "いま", meaning: "現在", type: "名詞", example: "<ruby>今<rt>いま</rt></ruby>、<ruby>勉強<rt>べんきょう</rt></ruby>しています。", exampleCn: "我現在正在讀書。", tags: ["時間"] },
+        { id: "mou", kanji: "もう", reading: "もう", meaning: "已經；再", type: "副詞", example: "もう<ruby>昼<rt>ひる</rt></ruby>ごはんを<ruby>食<rt>た</rt></ruby>べました。", exampleCn: "我已經吃午餐了。", tags: ["常用"] },
+        { id: "mada", kanji: "まだ", reading: "まだ", meaning: "還；尚未", type: "副詞", example: "まだ<ruby>宿題<rt>しゅくだい</rt></ruby>をしていません。", exampleCn: "我還沒寫作業。", tags: ["常用", "學校"] },
+        { id: "totemo", kanji: "とても", reading: "とても", meaning: "非常", type: "副詞", example: "この<ruby>水<rt>みず</rt></ruby>はとても<ruby>冷<rt>つめ</rt></ruby>たいです。", exampleCn: "這水非常冷。", tags: ["常用"] },
+        { id: "itsumo", kanji: "いつも", reading: "いつも", meaning: "總是", type: "副詞", example: "<ruby>父<rt>ちち</rt></ruby>はいつも<ruby>早<rt>はや</rt></ruby>く<ruby>起<rt>お</rt></ruby>きます。", exampleCn: "爸爸總是很早起床。", tags: ["常用", "時間"] }
+      ];
+
+      const DateUtil = {
+        todayKey(date = new Date()) {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          return `${year}-${month}-${day}`;
+        },
+        fromKey(key) {
+          const [year, month, day] = key.split("-").map(Number);
+          return new Date(year, month - 1, day);
+        },
+        addDays(key, days) {
+          const date = this.fromKey(key);
+          date.setDate(date.getDate() + days);
+          return this.todayKey(date);
+        },
+        daysBetween(startKey, endKey) {
+          const start = this.fromKey(startKey);
+          const end = this.fromKey(endKey);
+          const dayMs = 24 * 60 * 60 * 1000;
+          return Math.round((end - start) / dayMs);
+        },
+        shortDayLabel(key) {
+          const date = this.fromKey(key);
+          return ["日", "一", "二", "三", "四", "五", "六"][date.getDay()];
+        }
+      };
+
+      const Store = {
+        defaultState() {
+          return {
+            settings: {
+              dailyGoal: 10,
+              theme: "dark",
+              selectedTypes: []
+            },
+            progress: {},
+            stats: {
+              streak: 0,
+              lastStudyDate: null,
+              totalStudied: 0,
+              daily: {}
+            }
+          };
+        },
+        defaultProgress() {
+          return {
+            ease: 2.5,
+            interval: 0,
+            repetition: 0,
+            due: DateUtil.todayKey(),
+            seen: false,
+            learned: false,
+            studiedCount: 0,
+            rememberedCount: 0,
+            lastStudied: null
+          };
+        },
+        load() {
+          let state = this.defaultState();
+          try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+              state = this.mergeState(state, JSON.parse(stored));
+            }
+          } catch (error) {
+            console.warn("Unable to load saved progress.", error);
+          }
+          this.ensureProgress(state);
+          this.normalizeStreak(state);
+          this.save(state);
+          return state;
+        },
+        mergeState(base, stored) {
+          return {
+            settings: { ...base.settings, ...(stored.settings || {}) },
+            progress: { ...(stored.progress || {}) },
+            stats: { ...base.stats, ...(stored.stats || {}), daily: { ...((stored.stats && stored.stats.daily) || {}) } }
+          };
+        },
+        ensureProgress(state) {
+          Vocabulary.forEach((word) => {
+            state.progress[word.id] = {
+              ...this.defaultProgress(),
+              ...(state.progress[word.id] || {})
+            };
+          });
+        },
+        normalizeStreak(state) {
+          const { lastStudyDate } = state.stats;
+          if (!lastStudyDate) return;
+          const gap = DateUtil.daysBetween(lastStudyDate, DateUtil.todayKey());
+          if (gap > 1) {
+            state.stats.streak = 0;
+          }
+        },
+        save(state) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          } catch (error) {
+            console.warn("Unable to save progress.", error);
+          }
+        },
+        reset() {
+          const state = this.defaultState();
+          this.ensureProgress(state);
+          this.save(state);
+          return state;
+        }
+      };
+
+      const SRS = {
+        update(progress, remembered) {
+          const today = DateUtil.todayKey();
+          if (!remembered) {
+            progress.ease = Math.max(1.3, Number((progress.ease - 0.2).toFixed(2)));
+            progress.interval = 1;
+            progress.repetition = 0;
+            progress.due = DateUtil.addDays(today, 1);
+            return progress;
+          }
+
+          const previousRep = progress.repetition;
+          progress.repetition += 1;
+          progress.ease = Math.max(1.3, Number((progress.ease + 0.08).toFixed(2)));
+
+          if (previousRep === 0) {
+            progress.interval = 1;
+          } else if (previousRep === 1) {
+            progress.interval = 3;
+          } else if (previousRep === 2) {
+            progress.interval = 7;
+          } else if (previousRep === 3) {
+            progress.interval = 14;
+          } else {
+            progress.interval = Math.max(progress.interval + 1, Math.round(progress.interval * progress.ease));
+          }
+
+          progress.rememberedCount += 1;
+          progress.learned = true;
+          progress.due = DateUtil.addDays(today, progress.interval);
+          return progress;
+        }
+      };
+
+      const App = {
+        state: null,
+        view: "home",
+        session: null,
+        revealed: false,
+        animating: false,
+        resetArmed: false,
+        resetTimer: null,
+        touch: { startY: 0, lastY: 0, active: false },
+
+        init() {
+          this.root = document.getElementById("app");
+          this.toast = document.getElementById("toast");
+          this.state = Store.load();
+          this.applyTheme();
+          this.bindEvents();
+          this.renderHome();
+        },
+
+        bindEvents() {
+          document.body.addEventListener("click", (event) => this.handleClick(event));
+          window.addEventListener("keydown", (event) => this.handleKeydown(event));
+
+          this.root.addEventListener("touchstart", (event) => this.handleTouchStart(event), { passive: true });
+          this.root.addEventListener("touchmove", (event) => this.handleTouchMove(event), { passive: true });
+          this.root.addEventListener("touchend", (event) => this.handleTouchEnd(event));
+        },
+
+        handleClick(event) {
+          const actionTarget = event.target.closest("button[data-action]");
+          if (!actionTarget) {
+            if (event.target.closest(".study-card")) {
+              this.revealCard();
+            }
+            return;
+          }
+
+          const action = actionTarget.dataset.action;
+          const value = actionTarget.dataset.value;
+
+          if (action === "go-home") this.renderHome();
+          if (action === "open-settings") this.renderSettings();
+          if (action === "toggle-theme") this.toggleTheme();
+          if (action === "start-session") this.startSession();
+          if (action === "speak") this.speakCurrent(event);
+          if (action === "remember") this.answerCurrent(true);
+          if (action === "unsure") this.answerCurrent(false);
+          if (action === "set-goal") this.setGoal(Number(value));
+          if (action === "toggle-filter") this.toggleFilter(value);
+          if (action === "reset-progress") this.resetProgress();
+        },
+
+        handleKeydown(event) {
+          if (this.view !== "study") return;
+          if (event.key === " ") {
+            event.preventDefault();
+            this.revealCard();
+          }
+          if (event.key === "Enter") {
+            event.preventDefault();
+            if (this.revealed) {
+              this.answerCurrent(true);
+            } else {
+              this.revealCard();
+            }
+          }
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            this.skipCurrent();
+          }
+        },
+
+        handleTouchStart(event) {
+          if (this.view !== "study") return;
+          const card = event.target.closest(".study-card");
+          if (!card) return;
+          this.touch.active = true;
+          this.touch.startY = event.touches[0].clientY;
+          this.touch.lastY = this.touch.startY;
+        },
+
+        handleTouchMove(event) {
+          if (!this.touch.active) return;
+          this.touch.lastY = event.touches[0].clientY;
+        },
+
+        handleTouchEnd() {
+          if (!this.touch.active) return;
+          const delta = this.touch.startY - this.touch.lastY;
+          this.touch.active = false;
+          if (delta > 72) {
+            this.skipCurrent();
+          }
+        },
+
+        renderHome() {
+          this.view = "home";
+          this.session = null;
+          const today = DateUtil.todayKey();
+          const goal = this.state.settings.dailyGoal;
+          const todayCount = this.getDailyCount(today);
+          const progress = Math.min(100, Math.round((todayCount / goal) * 100));
+          const dueCount = this.getFilteredWords().filter((word) => this.isDue(word)).length;
+          const filterLabel = this.state.settings.selectedTypes.length
+            ? this.state.settings.selectedTypes.join("、")
+            : "全部";
+
+          this.root.innerHTML = `
+            <section class="view home-view">
+              <div class="home-hero">
+                <div class="today-line">
+                  <span>${this.formatDisplayDate(today)}</span>
+                  <span>${Vocabulary.length} 個 N5 核心詞</span>
+                </div>
+                <h1 class="home-title">ことば<span>滑動學日語</span></h1>
+                <button class="primary-action" type="button" data-action="start-session"${todayCount >= goal ? " disabled" : ""}>
+                  ${todayCount >= goal ? "今日目標完成" : `開始今日學習・${dueCount} 個到期`}
+                </button>
+              </div>
+
+              <section class="stats-grid" aria-label="學習數據">
+                <article class="stat-card progress-card">
+                  <div class="progress-ring" style="--progress: ${progress}">
+                    <div class="progress-ring-inner">
+                      <div>
+                        <strong>${todayCount}/${goal}</strong>
+                        <span>今日目標</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+                <article class="stat-card">
+                  <p class="stat-label">連續學習</p>
+                  <p class="stat-value">${this.state.stats.streak}<span class="stat-unit"> 天</span></p>
+                </article>
+                <article class="stat-card">
+                  <p class="stat-label">累計學習</p>
+                  <p class="stat-value">${this.state.stats.totalStudied}<span class="stat-unit"> 詞</span></p>
+                </article>
+                <article class="stat-card">
+                  <p class="stat-label">目前篩選</p>
+                  <p class="stat-value" style="font-size: 24px; line-height: 1.25;">${filterLabel}</p>
+                </article>
+              </section>
+
+              <section class="week-panel" aria-label="本週學習日曆">
+                <h2 class="section-title">本週學習日曆 <span class="stat-unit">有學習會變綠</span></h2>
+                <div class="week-row">${this.renderWeekDays()}</div>
+              </section>
+            </section>
+          `;
+        },
+
+        renderSettings() {
+          this.view = "settings";
+          const selected = this.state.settings.selectedTypes;
+          this.root.innerHTML = `
+            <section class="view settings-view">
+              <div class="today-line">
+                <span>設定</span>
+                <button class="secondary-action" type="button" data-action="go-home">完成</button>
+              </div>
+              <section class="settings-panel">
+                <div class="setting-group">
+                  <p class="setting-label">每日目標</p>
+                  <div class="segmented">
+                    ${GOALS.map((goal) => `
+                      <button class="segment-button ${this.state.settings.dailyGoal === goal ? "active" : ""}" type="button" data-action="set-goal" data-value="${goal}">
+                        ${goal}
+                      </button>
+                    `).join("")}
+                  </div>
+                </div>
+
+                <div class="setting-group">
+                  <p class="setting-label">單字分類</p>
+                  <div class="chip-grid">
+                    <button class="filter-button ${selected.length === 0 ? "active" : ""}" type="button" data-action="toggle-filter" data-value="all">全部</button>
+                    ${FILTER_TYPES.map((type) => `
+                      <button class="filter-button ${selected.includes(type) ? "active" : ""}" type="button" data-action="toggle-filter" data-value="${type}">
+                        ${type}
+                      </button>
+                    `).join("")}
+                  </div>
+                </div>
+
+                <div class="setting-group">
+                  <div class="switch-row">
+                    <div>
+                      <p class="setting-label">淺色主題</p>
+                      <p class="settings-meta">目前：${this.state.settings.theme === "light" ? "淺色" : "深色"}</p>
+                    </div>
+                    <button class="switch ${this.state.settings.theme === "light" ? "active" : ""}" type="button" data-action="toggle-theme" aria-label="切換淺色主題"></button>
+                  </div>
+                </div>
+
+                <div class="setting-group">
+                  <p class="setting-label">進度資料</p>
+                  <p class="settings-meta">SRS 間隔、連續天數、每日紀錄都保存在這台裝置的 localStorage。</p>
+                  <button class="danger-action" type="button" data-action="reset-progress">
+                    ${this.resetArmed ? "再按一次確認重置" : "重置進度"}
+                  </button>
+                </div>
+              </section>
+            </section>
+          `;
+        },
+
+        renderStudy() {
+          this.view = "study";
+          const word = this.getCurrentWord();
+          if (!word) {
+            this.renderComplete();
+            return;
+          }
+
+          const progress = Math.round((this.session.answered / this.session.target) * 100);
+          this.root.innerHTML = `
+            <section class="view study-view">
+              <div class="study-status">
+                <div class="study-status-row">
+                  <span>${this.session.answered}/${this.session.target}</span>
+                  <span>${word.tags.join("・")}</span>
+                </div>
+                <div class="progress-track" aria-label="本次學習進度">
+                  <div class="progress-fill" style="--width: ${progress}%"></div>
+                </div>
+              </div>
+              <div class="card-stage">
+                ${this.renderCard(word)}
+              </div>
+              <p class="study-hint">空白鍵揭曉・Enter 記住・方向鍵上或上滑跳過</p>
+            </section>
+          `;
+
+          requestAnimationFrame(() => {
+            const card = this.root.querySelector(".study-card");
+            if (card) card.classList.remove("entering");
+          });
+        },
+
+        renderCard(word) {
+          return `
+            <article class="study-card entering ${this.revealed ? "revealed" : ""}" aria-label="單字卡 ${word.kanji}">
+              <div class="card-front">
+                <div class="type-row">
+                  <span class="type-tag">${word.type}</span>
+                  ${word.tags.slice(0, 2).map((tag) => `<span class="tag-chip">${tag}</span>`).join("")}
+                </div>
+                <h2 class="word-kanji ${word.kanji.length >= 4 ? "compact" : ""}">${word.kanji}</h2>
+                <p class="word-reading">${word.reading}</p>
+                <button class="speak-button" type="button" data-action="speak" aria-label="播放日語發音" title="播放日語發音">♪</button>
+              </div>
+              <div class="reveal-panel ${this.revealed ? "revealed" : ""}" ${this.revealed ? 'style="max-height: 640px !important; opacity: 1 !important; margin-top: 14px !important; border-top-color: var(--border) !important;"' : ""}>
+                <p class="meaning-cn">${word.meaning}</p>
+                <div class="example-box">
+                  <p class="example-ja">${word.example}</p>
+                  <p class="example-cn">${word.exampleCn}</p>
+                </div>
+                <div class="answer-actions">
+                  <button class="remember-button" type="button" data-action="remember">記住了 ✓</button>
+                  <button class="unsure-button" type="button" data-action="unsure">還不太熟</button>
+                </div>
+              </div>
+            </article>
+          `;
+        },
+
+        renderComplete() {
+          this.view = "complete";
+          const session = this.session || { newWords: 0, answered: 0 };
+          const message = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+          this.root.innerHTML = `
+            <section class="view complete-view">
+              <section class="complete-panel">
+                <h1 class="complete-title">今日完成</h1>
+                <p class="complete-copy">${message}</p>
+                <div class="complete-stats" aria-label="本次完成數據">
+                  <div class="complete-stat">
+                    <strong>${session.newWords}</strong>
+                    <span>本次新詞</span>
+                  </div>
+                  <div class="complete-stat">
+                    <strong>${this.state.stats.streak}</strong>
+                    <span>連續天數</span>
+                  </div>
+                  <div class="complete-stat">
+                    <strong>${this.state.stats.totalStudied}</strong>
+                    <span>累計總數</span>
+                  </div>
+                </div>
+                <button class="primary-action" type="button" data-action="go-home">回首頁</button>
+              </section>
+            </section>
+          `;
+        },
+
+        renderEmptySession() {
+          this.view = "home";
+          this.root.innerHTML = `
+            <section class="view empty-state">
+              <h2>今天已經達標</h2>
+              <p>調高每日目標或換一個分類，就可以繼續練習。</p>
+              <button class="primary-action" type="button" data-action="open-settings">調整設定</button>
+              <button class="secondary-action" type="button" data-action="go-home">回首頁</button>
+            </section>
+          `;
+        },
+
+        renderWeekDays() {
+          const today = DateUtil.todayKey();
+          const start = DateUtil.addDays(today, -6);
+          const days = Array.from({ length: 7 }, (_, index) => DateUtil.addDays(start, index));
+          return days.map((key) => {
+            const count = this.getDailyCount(key);
+            const classes = ["day-pill", count > 0 ? "active" : "", key === today ? "today" : ""].filter(Boolean).join(" ");
+            return `<div class="${classes}">${DateUtil.shortDayLabel(key)}<span>${count || ""}</span></div>`;
+          }).join("");
+        },
+
+        startSession() {
+          const today = DateUtil.todayKey();
+          const remaining = Math.max(0, this.state.settings.dailyGoal - this.getDailyCount(today));
+          if (remaining <= 0) {
+            this.renderEmptySession();
+            return;
+          }
+
+          const candidates = this.getFilteredWords();
+          const dueWords = this.shuffle(candidates.filter((word) => this.isDue(word)));
+          const laterWords = this.shuffle(candidates.filter((word) => !this.isDue(word)));
+          const queue = [...dueWords, ...laterWords].slice(0, remaining);
+
+          if (!queue.length) {
+            this.renderEmptySession();
+            return;
+          }
+
+          this.session = {
+            queue: queue.map((word) => word.id),
+            target: queue.length,
+            answered: 0,
+            newWords: 0,
+            newWordIds: []
+          };
+          this.revealed = false;
+          this.renderStudy();
+        },
+
+        revealCard() {
+          if (this.view !== "study" || this.animating) return;
+          this.revealed = true;
+          const card = this.root.querySelector(".study-card");
+          if (card) card.classList.add("revealed");
+          const panel = this.root.querySelector(".reveal-panel");
+          if (panel) this.expandRevealPanel(panel);
+        },
+
+        expandRevealPanel(panel) {
+          panel.classList.add("revealed");
+          panel.style.setProperty("max-height", "640px", "important");
+          panel.style.setProperty("opacity", "1", "important");
+          panel.style.setProperty("margin-top", "14px", "important");
+          panel.style.setProperty("border-top-color", "var(--border)", "important");
+        },
+
+        answerCurrent(remembered) {
+          if (this.view !== "study" || this.animating) return;
+          const word = this.getCurrentWord();
+          if (!word) return;
+
+          const progress = this.state.progress[word.id];
+          const wasNew = !progress.seen;
+          progress.seen = true;
+          progress.studiedCount += 1;
+          progress.lastStudied = DateUtil.todayKey();
+          SRS.update(progress, remembered);
+
+          this.recordStudy();
+          if (wasNew && !this.session.newWordIds.includes(word.id)) {
+            this.session.newWordIds.push(word.id);
+            this.session.newWords += 1;
+          }
+          this.session.answered += 1;
+          Store.save(this.state);
+
+          this.exitCard(() => {
+            this.session.queue.shift();
+            this.revealed = false;
+            if (this.session.queue.length) {
+              this.renderStudy();
+            } else {
+              this.renderComplete();
+            }
+          });
+        },
+
+        skipCurrent() {
+          if (this.view !== "study" || this.animating || !this.session || this.session.queue.length < 2) return;
+          this.exitCard(() => {
+            const skipped = this.session.queue.shift();
+            this.session.queue.push(skipped);
+            this.revealed = false;
+            this.renderStudy();
+          });
+        },
+
+        exitCard(callback) {
+          const card = this.root.querySelector(".study-card");
+          if (!card) {
+            callback();
+            return;
+          }
+          this.animating = true;
+          card.classList.add("exiting-up");
+          window.setTimeout(() => {
+            this.animating = false;
+            callback();
+          }, 410);
+        },
+
+        speakCurrent(event) {
+          event.stopPropagation();
+          const word = this.getCurrentWord();
+          if (!word || !("speechSynthesis" in window)) {
+            this.showToast("這個瀏覽器不支援語音朗讀。");
+            return;
+          }
+          const utterance = new SpeechSynthesisUtterance(word.kanji);
+          utterance.lang = "ja-JP";
+          utterance.rate = 0.85;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(utterance);
+        },
+
+        recordStudy() {
+          const today = DateUtil.todayKey();
+          const last = this.state.stats.lastStudyDate;
+          if (last !== today) {
+            this.state.stats.streak = last && DateUtil.daysBetween(last, today) === 1
+              ? this.state.stats.streak + 1
+              : 1;
+            this.state.stats.lastStudyDate = today;
+          }
+
+          if (!this.state.stats.daily[today]) {
+            this.state.stats.daily[today] = { count: 0 };
+          }
+          this.state.stats.daily[today].count += 1;
+          this.state.stats.totalStudied += 1;
+        },
+
+        setGoal(goal) {
+          if (!GOALS.includes(goal)) return;
+          this.state.settings.dailyGoal = goal;
+          Store.save(this.state);
+          this.renderSettings();
+        },
+
+        toggleFilter(value) {
+          if (value === "all") {
+            this.state.settings.selectedTypes = [];
+          } else {
+            const selected = new Set(this.state.settings.selectedTypes);
+            if (selected.has(value)) {
+              selected.delete(value);
+            } else {
+              selected.add(value);
+            }
+            this.state.settings.selectedTypes = Array.from(selected);
+          }
+          Store.save(this.state);
+          this.renderSettings();
+        },
+
+        toggleTheme() {
+          this.state.settings.theme = this.state.settings.theme === "dark" ? "light" : "dark";
+          this.applyTheme();
+          Store.save(this.state);
+          if (this.view === "settings") this.renderSettings();
+        },
+
+        applyTheme() {
+          document.documentElement.dataset.theme = this.state.settings.theme;
+          document.querySelector('meta[name="theme-color"]').setAttribute("content", this.state.settings.theme === "dark" ? "#09090b" : "#faf9f7");
+          document.querySelector('[data-action="toggle-theme"]').textContent = this.state.settings.theme === "dark" ? "☾" : "☀";
+        },
+
+        resetProgress() {
+          if (!this.resetArmed) {
+            this.resetArmed = true;
+            this.showToast("再按一次重置進度。");
+            this.renderSettings();
+            clearTimeout(this.resetTimer);
+            this.resetTimer = window.setTimeout(() => {
+              this.resetArmed = false;
+              if (this.view === "settings") this.renderSettings();
+            }, 3500);
+            return;
+          }
+
+          clearTimeout(this.resetTimer);
+          this.resetArmed = false;
+          this.state = Store.reset();
+          this.applyTheme();
+          this.showToast("進度已重置。");
+          this.renderSettings();
+        },
+
+        getFilteredWords() {
+          const selected = this.state.settings.selectedTypes;
+          if (!selected.length) return Vocabulary.slice();
+          return Vocabulary.filter((word) => selected.includes(word.type));
+        },
+
+        isDue(word) {
+          return this.state.progress[word.id].due <= DateUtil.todayKey();
+        },
+
+        getCurrentWord() {
+          if (!this.session || !this.session.queue.length) return null;
+          const id = this.session.queue[0];
+          return Vocabulary.find((word) => word.id === id);
+        },
+
+        getDailyCount(key) {
+          return (this.state.stats.daily[key] && this.state.stats.daily[key].count) || 0;
+        },
+
+        formatDisplayDate(key) {
+          const [year, month, day] = key.split("-");
+          return `${year}.${month}.${day}`;
+        },
+
+        shuffle(items) {
+          const copy = items.slice();
+          for (let index = copy.length - 1; index > 0; index -= 1) {
+            const randomIndex = Math.floor(Math.random() * (index + 1));
+            [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+          }
+          return copy;
+        },
+
+        showToast(message) {
+          this.toast.textContent = message;
+          this.toast.classList.add("show");
+          window.clearTimeout(this.toastTimer);
+          this.toastTimer = window.setTimeout(() => this.toast.classList.remove("show"), 2100);
+        }
+      };
+
+      window.addEventListener("DOMContentLoaded", () => App.init());
+    })();
+  </script>
+</body>
+</html>
