@@ -492,6 +492,43 @@
       font-weight: 800;
     }
 
+    .flow-metrics {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .flow-metrics::-webkit-scrollbar {
+      display: none;
+    }
+
+    .metric-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .metric-pill.hot {
+      border-color: color-mix(in srgb, var(--success), var(--border) 34%);
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .metric-pill.rescue {
+      border-color: color-mix(in srgb, var(--warning), var(--border) 34%);
+      background: var(--warning-soft);
+      color: var(--warning);
+    }
+
     .progress-track {
       height: 8px;
       overflow: hidden;
@@ -510,11 +547,15 @@
     .card-stage {
       display: grid;
       place-items: center;
+      position: relative;
       min-height: 560px;
       perspective: 1200px;
     }
 
     .study-card {
+      grid-area: 1 / 1;
+      position: relative;
+      z-index: 2;
       width: 100%;
       max-width: 420px;
       min-height: 520px;
@@ -529,6 +570,62 @@
       touch-action: pan-y;
     }
 
+    .stack-preview {
+      grid-area: 1 / 1;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      min-height: 520px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      opacity: 0.58;
+      pointer-events: none;
+      transform: translateY(18px) scale(0.96);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+    }
+
+    .stack-preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg), transparent 8%) 78%, var(--bg) 100%);
+    }
+
+    .stack-preview-inner {
+      display: grid;
+      min-height: 470px;
+      align-content: end;
+      justify-items: center;
+      gap: 8px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .stack-preview-label {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .stack-preview-word {
+      margin: 0;
+      color: color-mix(in srgb, var(--text), var(--muted) 42%);
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
     .study-card.entering {
       transform: translateY(100vh);
     }
@@ -540,6 +637,36 @@
 
     .study-card:hover {
       border-color: color-mix(in srgb, var(--primary), var(--border) 58%);
+    }
+
+    .study-card.result-correct {
+      border-color: color-mix(in srgb, var(--success), var(--border) 18%);
+      box-shadow: 0 24px 70px color-mix(in srgb, var(--success), transparent 78%);
+      animation: correctPulse 0.46s var(--ease-out);
+    }
+
+    .study-card.result-wrong {
+      border-color: color-mix(in srgb, var(--danger), var(--border) 18%);
+      box-shadow: 0 24px 70px color-mix(in srgb, var(--danger), transparent 80%);
+      animation: wrongShake 0.34s ease;
+    }
+
+    .study-card.result-hesitant {
+      border-color: color-mix(in srgb, var(--warning), var(--border) 22%);
+      box-shadow: 0 24px 70px color-mix(in srgb, var(--warning), transparent 84%);
+    }
+
+    @keyframes correctPulse {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.018); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes wrongShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      50% { transform: translateX(7px); }
+      75% { transform: translateX(-4px); }
     }
 
     .card-front {
@@ -1103,6 +1230,118 @@
       transform: translate(-50%, 0);
     }
 
+    .feedback-burst,
+    .milestone-overlay {
+      position: fixed;
+      z-index: 70;
+      left: 50%;
+      pointer-events: none;
+      transform: translateX(-50%);
+    }
+
+    .feedback-burst {
+      top: calc(84px + env(safe-area-inset-top));
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 16px 36px var(--shadow);
+      font-size: 14px;
+      font-weight: 900;
+      animation: burstIn 0.6s var(--ease-out) both;
+    }
+
+    .feedback-burst.correct {
+      border-color: color-mix(in srgb, var(--success), var(--border) 30%);
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .feedback-burst.wrong {
+      border-color: color-mix(in srgb, var(--danger), var(--border) 30%);
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .feedback-burst.hesitant {
+      border-color: color-mix(in srgb, var(--warning), var(--border) 30%);
+      background: var(--warning-soft);
+      color: var(--warning);
+    }
+
+    .milestone-overlay {
+      bottom: calc(70px + env(safe-area-inset-bottom));
+      width: min(420px, calc(100vw - 28px));
+      padding: 12px;
+      border: 1px solid color-mix(in srgb, var(--primary), var(--border) 38%);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--card), var(--bg) 10%);
+      box-shadow: 0 20px 44px var(--shadow);
+      animation: milestoneIn 0.45s var(--ease-out) both;
+    }
+
+    .milestone-title {
+      margin: 0 0 8px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .milestone-grid span {
+      display: block;
+      min-height: 48px;
+      padding: 8px 6px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .milestone-grid strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    @keyframes burstIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -10px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+    }
+
+    @keyframes milestoneIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 18px);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
     @media (max-width: 360px) {
       .app-main {
         padding-left: 12px;
@@ -1127,6 +1366,18 @@
 
       .study-card {
         padding: 18px;
+      }
+
+      .stack-preview {
+        padding: 16px;
+      }
+
+      .flow-metrics {
+        padding-bottom: 2px;
+      }
+
+      .milestone-grid {
+        grid-template-columns: 1fr;
       }
 
       .complete-stats {
@@ -1183,6 +1434,9 @@
 
       const STORAGE_KEY = "kotoba.study.v1";
       const FLOW_BATCH_SIZE = 16;
+      const FLOW_QUEUE_TARGET = 24;
+      const FLOW_REFILL_THRESHOLD = 8;
+      const MILESTONE_VISIBLE_MS = 3600;
       const FILTER_TYPES = ["動詞", "名詞", "い形容", "な形容", "副詞"];
       const ENCOURAGEMENTS = [
         "今天的日語感覺更近了一點。",
@@ -1323,7 +1577,8 @@
           return {
             settings: {
               theme: "dark",
-              selectedTypes: []
+              selectedTypes: [],
+              rewardSound: true
             },
             progress: {},
             stats: {
@@ -1489,6 +1744,9 @@
         animating: false,
         autoSpeakTimer: null,
         autoSpeakMarker: null,
+        milestoneTimer: null,
+        feedbackAudio: null,
+        feedbackSoundUntil: 0,
         resetArmed: false,
         resetTimer: null,
         touch: { startX: 0, startY: 0, lastX: 0, lastY: 0, active: false },
@@ -1526,6 +1784,7 @@
           if (action === "go-home") this.renderHome();
           if (action === "open-settings") this.renderSettings();
           if (action === "toggle-theme") this.toggleTheme();
+          if (action === "toggle-reward-sound") this.toggleRewardSound();
           if (action === "start-session") this.startSession();
           if (action === "practice-mistakes") this.startMistakeSession();
           if (action === "speak") this.speakCurrent(event);
@@ -1605,6 +1864,7 @@
           this.view = "home";
           this.session = null;
           this.resetAutoSpeak();
+          this.clearMilestone();
           const today = DateUtil.todayKey();
           const todayCount = this.getDailyCount(today);
           const checkedIn = todayCount > 0;
@@ -1665,6 +1925,7 @@
         renderSettings() {
           this.view = "settings";
           this.resetAutoSpeak();
+          this.clearMilestone();
           const selected = this.state.settings.selectedTypes;
           this.root.innerHTML = `
             <section class="view settings-view">
@@ -1701,6 +1962,16 @@
                 </div>
 
                 <div class="setting-group">
+                  <div class="switch-row">
+                    <div>
+                      <p class="setting-label">獎勵音效</p>
+                      <p class="settings-meta">答對會播放短旋律，答錯與不熟會有柔和提示音。</p>
+                    </div>
+                    <button class="switch ${this.isRewardSoundEnabled() ? "active" : ""}" type="button" data-action="toggle-reward-sound" aria-label="切換獎勵音效"></button>
+                  </div>
+                </div>
+
+                <div class="setting-group">
                   <p class="setting-label">進度資料</p>
                   <p class="settings-meta">SRS 間隔、連續天數、每日紀錄都保存在這台裝置的 localStorage。</p>
                   <button class="danger-action" type="button" data-action="reset-progress">
@@ -1714,15 +1985,22 @@
 
         renderStudy({ animate = true } = {}) {
           this.view = "study";
-          const word = this.getCurrentWord();
+          if (this.session && this.session.mode === "daily") {
+            this.ensureFlowQueue();
+          }
+          let word = this.getCurrentWord();
           if (!word) {
-            this.renderComplete();
+            if (this.session && this.session.mode === "mistakes") {
+              this.renderComplete();
+            } else {
+              this.renderEmptySession();
+            }
             return;
           }
 
           const question = this.getCurrentQuestion();
           const answer = this.getCurrentAnswer();
-          const progress = Math.min(100, Math.round((this.session.answered / Math.max(1, this.session.target)) * 100));
+          const milestoneProgress = Math.round(((this.session.answered % FLOW_BATCH_SIZE) / FLOW_BATCH_SIZE) * 100);
           const hint = answer
             ? "Enter 或空白鍵下一題・答錯的詞會在本輪後段回來一次"
             : "1-4 選答案・空白鍵或點卡片不熟揭曉・←/→、上滑或左右滑換下一張";
@@ -1730,17 +2008,21 @@
             <section class="view study-view">
               <div class="study-status">
                 <div class="study-status-row">
-                  <span>本輪 ${this.session.answered} 詞</span>
+                  <span>${this.session.mode === "mistakes" ? "錯題專練" : `今日 ${this.getDailyCount(DateUtil.todayKey())} 詞`}</span>
                   <span>${QUIZ_MODE_LABELS[question.mode]}</span>
                 </div>
+                ${this.renderFlowMetrics()}
                 <div class="progress-track" aria-label="本次學習進度">
-                  <div class="progress-fill" style="--width: ${progress}%"></div>
+                  <div class="progress-fill" style="--width: ${milestoneProgress}%"></div>
                 </div>
               </div>
               <div class="card-stage">
+                ${this.renderStackPreview()}
                 ${this.renderCard(word, question, answer, animate)}
               </div>
               <p class="study-hint">${hint}</p>
+              ${this.renderFeedbackBurst()}
+              ${this.renderMilestoneOverlay()}
             </section>
           `;
 
@@ -1756,8 +2038,9 @@
         },
 
         renderCard(word, question, answer, animate) {
+          const resultClass = answer ? `result-${answer.result}` : "";
           return `
-            <article class="study-card ${animate ? "entering" : ""} ${answer ? "revealed" : ""}" aria-label="測驗 ${word.kanji}">
+            <article class="study-card ${animate ? "entering" : ""} ${answer ? "revealed" : ""} ${resultClass}" aria-label="測驗 ${word.kanji}">
               ${this.renderQuestionPrompt(word, question, answer)}
               <div class="quiz-options" role="list" aria-label="四個選項">
                 ${question.options.map((option, index) => `
@@ -1775,6 +2058,55 @@
                 ${answer ? this.renderResultPanel(word, question, answer) : ""}
               </div>
             </article>
+          `;
+        },
+
+        renderFlowMetrics() {
+          const todayCount = this.getDailyCount(DateUtil.todayKey());
+          const streak = this.session ? this.session.currentStreak : 0;
+          const best = this.session ? this.session.bestStreak : 0;
+          const rescued = this.session ? this.session.rescuedCount : 0;
+          return `
+            <div class="flow-metrics" aria-label="學習節奏">
+              <span class="metric-pill ${streak >= 3 ? "hot" : ""}">連續 ${streak} 題</span>
+              <span class="metric-pill">最佳 ${best}</span>
+              <span class="metric-pill">今日 ${todayCount} 詞</span>
+              <span class="metric-pill rescue">救回 ${rescued}</span>
+            </div>
+          `;
+        },
+
+        renderStackPreview() {
+          const nextWord = this.getNextWord();
+          if (!nextWord) return "";
+          return `
+            <div class="stack-preview" aria-hidden="true">
+              <div class="stack-preview-inner">
+                <span class="stack-preview-label">下一張</span>
+                <p class="stack-preview-word">${nextWord.kanji}</p>
+              </div>
+            </div>
+          `;
+        },
+
+        renderFeedbackBurst() {
+          const feedback = this.session && this.session.feedback;
+          if (!feedback) return "";
+          return `<div class="feedback-burst ${feedback.result}">${feedback.text}</div>`;
+        },
+
+        renderMilestoneOverlay() {
+          const summary = this.session && this.session.milestoneSummary;
+          if (!summary) return "";
+          return `
+            <div class="milestone-overlay" aria-live="polite">
+              <p class="milestone-title">剛剛又滑完 ${summary.answered} 詞，繼續就好。</p>
+              <div class="milestone-grid">
+                <span><strong>${summary.accuracy}%</strong>正確率</span>
+                <span><strong>${summary.bestStreak}</strong>最佳連擊</span>
+                <span><strong>${summary.rescued}</strong>救回錯題</span>
+              </div>
+            </div>
           `;
         },
 
@@ -1816,7 +2148,7 @@
           const detail = answer.result === "wrong"
             ? `正解是 ${correctText}`
             : `正解：${correctText}`;
-          const nextLabel = this.session.queue.length > 1 ? "下一題" : "看小結";
+          const nextLabel = this.session.mode === "daily" || this.session.queue.length > 1 ? "下一題" : "看小結";
           return `
             <div class="result-callout ${answer.result}">
               <p class="result-title">${title}</p>
@@ -1837,6 +2169,7 @@
         renderComplete() {
           this.view = "complete";
           this.resetAutoSpeak();
+          this.clearMilestone();
           const session = this.session || this.createEmptySession();
           this.lastMistakeIds = session.wrongWordIds ? session.wrongWordIds.slice() : [];
           const accuracy = session.answered
@@ -1960,6 +2293,12 @@
             newWordIds: [],
             wrongWordIds: [],
             retryCounts: {},
+            currentStreak: 0,
+            bestStreak: 0,
+            rescuedCount: 0,
+            milestoneBase: { answered: 0, correct: 0, wrong: 0, hesitant: 0, rescued: 0 },
+            milestoneSummary: null,
+            feedback: null,
             currentQuestion: null,
             currentAnswer: null
           };
@@ -1967,9 +2306,7 @@
 
         startSession() {
           const candidates = this.getFilteredWords();
-          const dueWords = this.shuffle(candidates.filter((word) => this.isDue(word)));
-          const laterWords = this.shuffle(candidates.filter((word) => !this.isDue(word)));
-          const queue = [...dueWords, ...laterWords].slice(0, FLOW_BATCH_SIZE);
+          const queue = this.buildPersonalizedQueue(candidates, FLOW_QUEUE_TARGET);
 
           if (!queue.length) {
             this.renderEmptySession();
@@ -1983,6 +2320,7 @@
           };
           this.revealed = false;
           this.resetAutoSpeak();
+          this.clearMilestone();
           this.renderStudy();
         },
 
@@ -2008,6 +2346,7 @@
           };
           this.revealed = false;
           this.resetAutoSpeak();
+          this.clearMilestone();
           this.renderStudy();
         },
 
@@ -2018,6 +2357,91 @@
             mode: QUIZ_MODES[(index + offset) % QUIZ_MODES.length],
             retry: false
           }));
+        },
+
+        buildPersonalizedQueue(candidates, size, excludeIds = []) {
+          const excluded = new Set(excludeIds);
+          let pool = candidates.filter((word) => !excluded.has(word.id));
+          if (!pool.length) pool = candidates.slice();
+
+          const bins = {
+            weak: [],
+            due: [],
+            new: [],
+            review: []
+          };
+
+          pool.forEach((word) => {
+            const progress = this.state.progress[word.id];
+            const entry = { word, score: this.getFlowScore(word, progress) };
+            const isWeak = progress.seen && (
+              progress.lastResult === "wrong" ||
+              progress.lastResult === "hesitant" ||
+              progress.wrongCount > progress.correctCount ||
+              progress.ease < 2.25
+            );
+
+            if (isWeak) {
+              bins.weak.push(entry);
+            } else if (!progress.seen) {
+              bins.new.push(entry);
+            } else if (this.isDue(word)) {
+              bins.due.push(entry);
+            } else {
+              bins.review.push(entry);
+            }
+          });
+
+          Object.values(bins).forEach((bin) => bin.sort((a, b) => b.score - a.score));
+
+          const pattern = ["weak", "new", "due", "review", "weak", "new", "review", "due"];
+          const selected = [];
+          const selectedIds = new Set();
+          let patternIndex = 0;
+
+          while (selected.length < size && Object.values(bins).some((bin) => bin.length)) {
+            const key = pattern[patternIndex % pattern.length];
+            patternIndex += 1;
+            let entry = bins[key].shift();
+            if (!entry) {
+              entry = this.takeHighestFlowEntry(bins);
+            }
+            if (!entry || selectedIds.has(entry.word.id)) continue;
+            selectedIds.add(entry.word.id);
+            selected.push(entry.word);
+          }
+
+          return selected;
+        },
+
+        takeHighestFlowEntry(bins) {
+          let bestKey = null;
+          Object.keys(bins).forEach((key) => {
+            if (!bins[key].length) return;
+            if (!bestKey || bins[key][0].score > bins[bestKey][0].score) {
+              bestKey = key;
+            }
+          });
+          return bestKey ? bins[bestKey].shift() : null;
+        },
+
+        getFlowScore(word, progress) {
+          const dueBoost = this.isDue(word) ? 8 : 0;
+          const newBoost = progress.seen ? 0 : 6;
+          const weakBoost = progress.wrongCount * 3 + progress.hesitantCount * 1.4;
+          const recentWrongBoost = progress.lastResult === "wrong" ? 5 : progress.lastResult === "hesitant" ? 2 : 0;
+          const easeBoost = Math.max(0, 2.5 - progress.ease) * 2;
+          return dueBoost + newBoost + weakBoost + recentWrongBoost + easeBoost + Math.random() * 4;
+        },
+
+        ensureFlowQueue(minSize = FLOW_QUEUE_TARGET) {
+          if (!this.session || this.session.mode !== "daily") return;
+          if (this.session.queue.length >= minSize) return;
+          const candidates = this.getFilteredWords();
+          const queuedIds = this.session.queue.map((item) => typeof item === "string" ? item : item.id);
+          const needed = minSize - this.session.queue.length;
+          const nextWords = this.buildPersonalizedQueue(candidates, needed, queuedIds);
+          this.session.queue.push(...this.createQuestionQueue(nextWords));
         },
 
         scheduleWrongRetry(item) {
@@ -2087,6 +2511,16 @@
           }
           this.session[result] += 1;
           this.session.answered += 1;
+          if (result === "correct") {
+            this.session.currentStreak += 1;
+            this.session.bestStreak = Math.max(this.session.bestStreak, this.session.currentStreak);
+          } else {
+            this.session.currentStreak = 0;
+          }
+          if (item.retry && result === "correct") {
+            this.session.rescuedCount += 1;
+          }
+          this.session.feedback = this.createFeedback(result);
           this.session.currentAnswer = {
             id: word.id,
             result,
@@ -2102,8 +2536,164 @@
           }
 
           Store.save(this.state);
+          this.maybeShowMilestone();
+          this.playAnswerFeedback(result);
           this.revealed = true;
           this.renderStudy({ animate: false });
+        },
+
+        createFeedback(result) {
+          if (result === "correct") {
+            const streak = this.session.currentStreak;
+            return {
+              result,
+              text: streak >= 5 ? `連續 ${streak} 題` : "答對了"
+            };
+          }
+          if (result === "wrong") {
+            return { result, text: "答案回流" };
+          }
+          return { result, text: "先看一次" };
+        },
+
+        maybeShowMilestone() {
+          if (!this.session || this.session.mode !== "daily") return;
+          if (this.session.answered === 0 || this.session.answered % FLOW_BATCH_SIZE !== 0) return;
+
+          const base = this.session.milestoneBase;
+          const answered = this.session.answered - base.answered;
+          const correct = this.session.correct - base.correct;
+          const rescued = this.session.rescuedCount - base.rescued;
+          this.session.milestoneSummary = {
+            answered,
+            accuracy: answered ? Math.round((correct / answered) * 100) : 0,
+            bestStreak: this.session.bestStreak,
+            rescued
+          };
+          this.session.milestoneBase = {
+            answered: this.session.answered,
+            correct: this.session.correct,
+            wrong: this.session.wrong,
+            hesitant: this.session.hesitant,
+            rescued: this.session.rescuedCount
+          };
+          window.clearTimeout(this.milestoneTimer);
+          this.milestoneTimer = window.setTimeout(() => {
+            if (!this.session) return;
+            this.session.milestoneSummary = null;
+            if (this.view === "study") this.renderStudy({ animate: false });
+          }, MILESTONE_VISIBLE_MS);
+        },
+
+        clearMilestone() {
+          window.clearTimeout(this.milestoneTimer);
+          this.milestoneTimer = null;
+          if (this.session) this.session.milestoneSummary = null;
+        },
+
+        playAnswerFeedback(result, { force = false } = {}) {
+          if ("vibrate" in navigator) {
+            navigator.vibrate(result === "wrong" ? [24, 34, 24] : result === "correct" ? 18 : 10);
+          }
+          if (!force && !this.isRewardSoundEnabled()) {
+            this.feedbackSoundUntil = 0;
+            return 0;
+          }
+
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContext) return 0;
+
+          try {
+            if (!this.feedbackAudio) this.feedbackAudio = new AudioContext();
+            const context = this.feedbackAudio;
+            if (context.state === "suspended") {
+              const resume = context.resume();
+              if (resume && typeof resume.catch === "function") resume.catch(() => {});
+            }
+            const now = context.currentTime;
+            const notes = this.getFeedbackSoundNotes(this.getFeedbackSoundVariant(result));
+            const master = context.createGain();
+            const duration = Math.max(...notes.map((note) => note.start + note.duration)) + 0.08;
+
+            master.gain.setValueAtTime(0.82, now);
+            master.connect(context.destination);
+            notes.forEach((note) => this.playFeedbackTone(context, master, now, note));
+            window.setTimeout(() => master.disconnect(), Math.round(duration * 1000) + 120);
+            this.feedbackSoundUntil = Date.now() + Math.round(duration * 1000);
+            return Math.round(duration * 1000);
+          } catch (error) {
+            this.feedbackSoundUntil = 0;
+            return 0;
+          }
+        },
+
+        getFeedbackSoundVariant(result) {
+          const item = this.getCurrentItem();
+          const streak = this.session ? this.session.currentStreak : 0;
+          if (result === "correct" && item && item.retry) return "rescue";
+          if (result === "correct" && streak >= 5 && streak % 5 === 0) return "streak";
+          return result;
+        },
+
+        getFeedbackSoundNotes(variant) {
+          const sounds = {
+            correct: [
+              { frequency: 659.25, start: 0, duration: 0.09, volume: 0.05, type: "triangle" },
+              { frequency: 880, start: 0.065, duration: 0.12, volume: 0.045, type: "triangle" },
+              { frequency: 1174.66, start: 0.16, duration: 0.16, volume: 0.032, type: "sine" }
+            ],
+            streak: [
+              { frequency: 523.25, start: 0, duration: 0.08, volume: 0.048, type: "triangle" },
+              { frequency: 659.25, start: 0.055, duration: 0.09, volume: 0.052, type: "triangle" },
+              { frequency: 783.99, start: 0.11, duration: 0.1, volume: 0.052, type: "triangle" },
+              { frequency: 1046.5, start: 0.18, duration: 0.15, volume: 0.04, type: "sine" },
+              { frequency: 1318.51, start: 0.28, duration: 0.14, volume: 0.028, type: "sine" }
+            ],
+            rescue: [
+              { frequency: 587.33, start: 0, duration: 0.1, volume: 0.044, type: "triangle" },
+              { frequency: 783.99, start: 0.08, duration: 0.12, volume: 0.047, type: "triangle" },
+              { frequency: 987.77, start: 0.17, duration: 0.17, volume: 0.034, type: "sine" }
+            ],
+            hesitant: [
+              { frequency: 392, start: 0, duration: 0.08, volume: 0.032, type: "sine" },
+              { frequency: 493.88, start: 0.085, duration: 0.1, volume: 0.026, type: "sine" }
+            ],
+            wrong: [
+              { frequency: 220, slideTo: 185, start: 0, duration: 0.12, volume: 0.04, type: "triangle", filter: 620 },
+              { frequency: 164.81, slideTo: 146.83, start: 0.075, duration: 0.16, volume: 0.034, type: "sine", filter: 520 }
+            ]
+          };
+          return sounds[variant] || sounds.hesitant;
+        },
+
+        playFeedbackTone(context, output, now, note) {
+          const start = now + note.start;
+          const oscillator = context.createOscillator();
+          const gain = context.createGain();
+          let source = oscillator;
+
+          oscillator.type = note.type || "sine";
+          oscillator.frequency.setValueAtTime(note.frequency, start);
+          if (note.slideTo) {
+            oscillator.frequency.exponentialRampToValueAtTime(note.slideTo, start + note.duration);
+          }
+
+          gain.gain.setValueAtTime(0.0001, start);
+          gain.gain.exponentialRampToValueAtTime(note.volume || 0.035, start + 0.012);
+          gain.gain.exponentialRampToValueAtTime(0.0001, start + note.duration);
+
+          if (note.filter) {
+            const filter = context.createBiquadFilter();
+            filter.type = "lowpass";
+            filter.frequency.setValueAtTime(note.filter, start);
+            oscillator.connect(filter);
+            source = filter;
+          }
+
+          source.connect(gain);
+          gain.connect(output);
+          oscillator.start(start);
+          oscillator.stop(start + note.duration + 0.04);
         },
 
         nextQuestion() {
@@ -2116,9 +2706,13 @@
             this.session.queue.shift();
             this.session.currentQuestion = null;
             this.session.currentAnswer = null;
+            this.session.feedback = null;
             this.revealed = false;
             this.resetAutoSpeak();
-            if (this.session.queue.length) {
+            if (this.session.mode === "daily") {
+              this.ensureFlowQueue();
+              this.renderStudy();
+            } else if (this.session.queue.length) {
               this.renderStudy();
             } else {
               this.renderComplete();
@@ -2138,8 +2732,12 @@
             this.session.queue.push(skipped);
             this.session.currentQuestion = null;
             this.session.currentAnswer = null;
+            this.session.feedback = null;
             this.revealed = false;
             this.resetAutoSpeak();
+            if (this.session.mode === "daily" && this.session.queue.length < FLOW_REFILL_THRESHOLD) {
+              this.ensureFlowQueue();
+            }
             this.renderStudy();
           });
         },
@@ -2181,6 +2779,10 @@
           if (this.autoSpeakMarker === marker) return;
           this.autoSpeakMarker = marker;
           this.clearAutoSpeakTimer();
+          const baseDelay = phase === "answer" ? 220 : 360;
+          const soundDelay = phase === "answer" && this.feedbackSoundUntil
+            ? Math.max(0, this.feedbackSoundUntil - Date.now() + 80)
+            : 0;
           this.autoSpeakTimer = window.setTimeout(() => {
             const currentWord = this.getCurrentWord();
             const currentAnswer = this.getCurrentAnswer();
@@ -2188,7 +2790,7 @@
             if (phase === "prompt" && currentAnswer) return;
             if (phase === "answer" && !currentAnswer) return;
             this.speakWord(word);
-          }, phase === "answer" ? 180 : 360);
+          }, Math.max(baseDelay, soundDelay));
         },
 
         clearAutoSpeakTimer() {
@@ -2252,6 +2854,23 @@
           this.state.settings.theme = this.state.settings.theme === "dark" ? "light" : "dark";
           this.applyTheme();
           Store.save(this.state);
+          if (this.view === "settings") this.renderSettings();
+        },
+
+        isRewardSoundEnabled() {
+          return this.state.settings.rewardSound !== false;
+        },
+
+        toggleRewardSound() {
+          this.state.settings.rewardSound = !this.isRewardSoundEnabled();
+          Store.save(this.state);
+          if (this.state.settings.rewardSound) {
+            this.playAnswerFeedback("correct", { force: true });
+            this.showToast("獎勵音效已開啟。");
+          } else {
+            this.feedbackSoundUntil = 0;
+            this.showToast("獎勵音效已關閉。");
+          }
           if (this.view === "settings") this.renderSettings();
         },
 
@@ -2321,6 +2940,13 @@
           const item = this.getCurrentItem();
           if (!item) return null;
           return Vocabulary.find((word) => word.id === item.id);
+        },
+
+        getNextWord() {
+          if (!this.session || this.session.queue.length < 2) return null;
+          const item = this.session.queue[1];
+          const id = typeof item === "string" ? item : item.id;
+          return Vocabulary.find((word) => word.id === id);
         },
 
         getCurrentQuestion() {
