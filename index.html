@@ -18,6 +18,9 @@
       --success: #22c55e;
       --success-soft: rgba(34, 197, 94, 0.14);
       --danger: #ef4444;
+      --danger-soft: rgba(239, 68, 68, 0.14);
+      --warning: #facc15;
+      --warning-soft: rgba(250, 204, 21, 0.14);
       --text: #f0ece4;
       --muted: #6b6975;
       --border: #2a2a34;
@@ -38,6 +41,9 @@
       --success: #16a34a;
       --success-soft: rgba(22, 163, 74, 0.12);
       --danger: #dc2626;
+      --danger-soft: rgba(220, 38, 38, 0.12);
+      --warning: #ca8a04;
+      --warning-soft: rgba(202, 138, 4, 0.12);
       --text: #24211d;
       --muted: #777168;
       --border: #e3ded7;
@@ -115,6 +121,7 @@
       display: inline-flex;
       align-items: baseline;
       gap: 8px;
+      min-height: 44px;
       padding: 0;
       background: transparent;
       color: var(--text);
@@ -340,6 +347,7 @@
     }
 
     .week-panel,
+    .weakness-panel,
     .settings-panel,
     .complete-panel {
       margin-top: 12px;
@@ -357,6 +365,73 @@
       margin: 0 0 14px;
       font-size: 16px;
       font-weight: 900;
+    }
+
+    .weakness-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .weakness-item,
+    .mistake-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 58px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      text-align: left;
+    }
+
+    .weakness-word,
+    .mistake-word {
+      min-width: 0;
+    }
+
+    .weakness-word strong,
+    .mistake-word strong {
+      display: block;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .weakness-word span,
+    .mistake-word span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .weakness-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 9px;
+      border: 1px solid color-mix(in srgb, var(--danger), var(--border) 40%);
+      border-radius: 999px;
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .weakness-empty {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.6;
     }
 
     .week-row {
@@ -523,6 +598,29 @@
       line-height: 1.25;
     }
 
+    .quiz-mode {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--card-strong);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .meaning-prompt {
+      margin: 8px 0 0;
+      color: var(--success);
+      font-size: 42px;
+      font-weight: 900;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+      text-align: center;
+    }
+
     .speak-button {
       display: inline-flex;
       align-items: center;
@@ -607,6 +705,142 @@
       margin-top: 16px;
     }
 
+    .quiz-options {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .quiz-option {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: center;
+      min-height: 58px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      color: var(--text);
+      text-align: left;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .quiz-option:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 26px var(--shadow);
+    }
+
+    .quiz-option:disabled {
+      cursor: default;
+    }
+
+    .quiz-option.correct {
+      border-color: color-mix(in srgb, var(--success), var(--border) 25%);
+      background: var(--success-soft);
+    }
+
+    .quiz-option.wrong {
+      border-color: color-mix(in srgb, var(--danger), var(--border) 25%);
+      background: var(--danger-soft);
+    }
+
+    .quiz-option.dimmed {
+      opacity: 0.62;
+    }
+
+    .option-index {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .option-text {
+      min-width: 0;
+    }
+
+    .option-label {
+      display: block;
+      font-family: "Noto Sans JP", "Noto Sans TC", sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .option-sub {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .hesitant-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 44px;
+      margin-top: 12px;
+      border: 1px dashed color-mix(in srgb, var(--warning), var(--border) 35%);
+      border-radius: var(--radius);
+      background: var(--warning-soft);
+      color: var(--warning);
+      font-weight: 900;
+    }
+
+    .result-callout {
+      display: grid;
+      gap: 4px;
+      margin: 16px 0 12px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card-strong);
+      text-align: center;
+    }
+
+    .result-callout.correct {
+      border-color: color-mix(in srgb, var(--success), var(--border) 30%);
+      background: var(--success-soft);
+    }
+
+    .result-callout.wrong {
+      border-color: color-mix(in srgb, var(--danger), var(--border) 30%);
+      background: var(--danger-soft);
+    }
+
+    .result-callout.hesitant {
+      border-color: color-mix(in srgb, var(--warning), var(--border) 30%);
+      background: var(--warning-soft);
+    }
+
+    .result-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .result-detail {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
     .remember-button,
     .unsure-button {
       min-height: 52px;
@@ -673,7 +907,8 @@
 
     .segment-button,
     .filter-button {
-      min-height: 40px;
+      min-width: 44px;
+      min-height: 44px;
       padding: 0 14px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -707,8 +942,8 @@
 
     .switch {
       position: relative;
-      width: 58px;
-      height: 34px;
+      width: 68px;
+      height: 44px;
       border: 1px solid var(--border);
       border-radius: 999px;
       background: var(--card-strong);
@@ -720,8 +955,8 @@
       position: absolute;
       top: 4px;
       left: 4px;
-      width: 24px;
-      height: 24px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: var(--text);
       transition: transform 0.22s var(--ease-out), background 0.18s ease;
@@ -733,7 +968,7 @@
     }
 
     .switch.active::after {
-      transform: translateX(24px);
+      transform: translateX(26px);
       background: var(--primary);
     }
 
@@ -776,8 +1011,12 @@
 
     .complete-stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
+    }
+
+    .complete-stat.accuracy-stat {
+      grid-column: 1 / -1;
     }
 
     .complete-stat {
@@ -801,6 +1040,19 @@
       color: var(--muted);
       font-size: 11px;
       font-weight: 800;
+    }
+
+    .mistake-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mistake-heading {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      text-align: left;
     }
 
     .empty-state {
@@ -869,13 +1121,29 @@
         font-size: 54px;
       }
 
+      .meaning-prompt {
+        font-size: 34px;
+      }
+
       .study-card {
         padding: 18px;
       }
 
-      .answer-actions,
       .complete-stats {
         grid-template-columns: 1fr;
+      }
+
+      .complete-stat.accuracy-stat {
+        grid-column: auto;
+      }
+
+      .weakness-item,
+      .mistake-item {
+        grid-template-columns: 1fr;
+      }
+
+      .weakness-badge {
+        width: max-content;
       }
     }
 
@@ -914,7 +1182,7 @@
       "use strict";
 
       const STORAGE_KEY = "kotoba.study.v1";
-      const GOALS = [5, 10, 15, 20];
+      const FLOW_BATCH_SIZE = 16;
       const FILTER_TYPES = ["動詞", "名詞", "い形容", "な形容", "副詞"];
       const ENCOURAGEMENTS = [
         "今天的日語感覺更近了一點。",
@@ -923,6 +1191,17 @@
         "好節奏，明天再把記憶接上。",
         "一張一張來，語感會慢慢長出來。"
       ];
+      const QUIZ_MODES = ["ja-to-cn", "cn-to-ja"];
+      const QUIZ_MODE_LABELS = {
+        "ja-to-cn": "看日文選中文",
+        "cn-to-ja": "看中文選日文"
+      };
+      const RESULT_LABELS = {
+        correct: "答對了",
+        hesitant: "先看答案",
+        wrong: "答錯了"
+      };
+      const WRONG_RETRY_LIMIT = 1;
 
       const Vocabulary = [
         { id: "taberu", kanji: "食べる", reading: "たべる", meaning: "吃", type: "動詞", example: "<ruby>朝<rt>あさ</rt></ruby>ごはんを<ruby>食<rt>た</rt></ruby>べます。", exampleCn: "我吃早餐。", tags: ["日常", "飲食"] },
@@ -1043,7 +1322,6 @@
         defaultState() {
           return {
             settings: {
-              dailyGoal: 10,
               theme: "dark",
               selectedTypes: []
             },
@@ -1066,6 +1344,10 @@
             learned: false,
             studiedCount: 0,
             rememberedCount: 0,
+            correctCount: 0,
+            wrongCount: 0,
+            hesitantCount: 0,
+            lastResult: null,
             lastStudied: null
           };
         },
@@ -1093,11 +1375,35 @@
         },
         ensureProgress(state) {
           Vocabulary.forEach((word) => {
-            state.progress[word.id] = {
-              ...this.defaultProgress(),
-              ...(state.progress[word.id] || {})
-            };
+            state.progress[word.id] = this.normalizeProgress(state.progress[word.id]);
           });
+        },
+        normalizeProgress(progress = {}) {
+          const defaults = this.defaultProgress();
+          const merged = {
+            ...defaults,
+            ...progress
+          };
+          const toNumber = (value, fallback) => {
+            const number = Number(value);
+            return Number.isFinite(number) ? number : fallback;
+          };
+          merged.ease = Math.max(1.3, toNumber(merged.ease, defaults.ease));
+          merged.interval = Math.max(0, Math.round(toNumber(merged.interval, defaults.interval)));
+          merged.repetition = Math.max(0, Math.round(toNumber(merged.repetition, defaults.repetition)));
+          merged.studiedCount = Math.max(0, Math.round(toNumber(merged.studiedCount, defaults.studiedCount)));
+          merged.rememberedCount = Math.max(0, Math.round(toNumber(merged.rememberedCount, defaults.rememberedCount)));
+          merged.correctCount = "correctCount" in progress
+            ? Math.max(0, Math.round(toNumber(progress.correctCount, defaults.correctCount)))
+            : merged.rememberedCount;
+          merged.wrongCount = Math.max(0, Math.round(toNumber(merged.wrongCount, defaults.wrongCount)));
+          merged.hesitantCount = Math.max(0, Math.round(toNumber(merged.hesitantCount, defaults.hesitantCount)));
+          merged.lastResult = ["correct", "hesitant", "wrong"].includes(merged.lastResult) ? merged.lastResult : null;
+          merged.due = typeof merged.due === "string" ? merged.due : DateUtil.todayKey();
+          merged.lastStudied = typeof merged.lastStudied === "string" ? merged.lastStudied : null;
+          merged.seen = Boolean(merged.seen);
+          merged.learned = Boolean(merged.learned);
+          return merged;
         },
         normalizeStreak(state) {
           const { lastStudyDate } = state.stats;
@@ -1123,13 +1429,30 @@
       };
 
       const SRS = {
-        update(progress, remembered) {
+        update(progress, result) {
           const today = DateUtil.todayKey();
-          if (!remembered) {
-            progress.ease = Math.max(1.3, Number((progress.ease - 0.2).toFixed(2)));
+          const normalizedResult = typeof result === "boolean"
+            ? (result ? "correct" : "hesitant")
+            : result;
+          progress.lastResult = ["correct", "hesitant", "wrong"].includes(normalizedResult)
+            ? normalizedResult
+            : "hesitant";
+
+          if (progress.lastResult === "wrong") {
+            progress.wrongCount += 1;
+            progress.ease = Math.max(1.3, Number((progress.ease - 0.22).toFixed(2)));
             progress.interval = 1;
             progress.repetition = 0;
+            progress.learned = false;
             progress.due = DateUtil.addDays(today, 1);
+            return progress;
+          }
+
+          if (progress.lastResult === "hesitant") {
+            progress.hesitantCount += 1;
+            progress.ease = Math.max(1.3, Number((progress.ease - 0.06).toFixed(2)));
+            progress.interval = Math.max(1, Math.min(progress.interval || 1, 2));
+            progress.due = DateUtil.addDays(today, progress.interval);
             return progress;
           }
 
@@ -1149,6 +1472,7 @@
             progress.interval = Math.max(progress.interval + 1, Math.round(progress.interval * progress.ease));
           }
 
+          progress.correctCount += 1;
           progress.rememberedCount += 1;
           progress.learned = true;
           progress.due = DateUtil.addDays(today, progress.interval);
@@ -1160,11 +1484,14 @@
         state: null,
         view: "home",
         session: null,
+        lastMistakeIds: [],
         revealed: false,
         animating: false,
+        autoSpeakTimer: null,
+        autoSpeakMarker: null,
         resetArmed: false,
         resetTimer: null,
-        touch: { startY: 0, lastY: 0, active: false },
+        touch: { startX: 0, startY: 0, lastX: 0, lastY: 0, active: false },
 
         init() {
           this.root = document.getElementById("app");
@@ -1200,29 +1527,46 @@
           if (action === "open-settings") this.renderSettings();
           if (action === "toggle-theme") this.toggleTheme();
           if (action === "start-session") this.startSession();
+          if (action === "practice-mistakes") this.startMistakeSession();
           if (action === "speak") this.speakCurrent(event);
-          if (action === "remember") this.answerCurrent(true);
-          if (action === "unsure") this.answerCurrent(false);
-          if (action === "set-goal") this.setGoal(Number(value));
+          if (action === "select-option") this.selectOption(Number(value));
+          if (action === "mark-hesitant") this.markHesitant();
+          if (action === "next-question") this.nextQuestion();
+          if (action === "remember") this.answerCurrent("correct");
+          if (action === "unsure") this.answerCurrent("hesitant");
           if (action === "toggle-filter") this.toggleFilter(value);
           if (action === "reset-progress") this.resetProgress();
         },
 
         handleKeydown(event) {
+          if (this.view === "complete" && event.key === " ") {
+            event.preventDefault();
+            this.startSession();
+            return;
+          }
+
           if (this.view !== "study") return;
+          const number = Number(event.key);
+          if (number >= 1 && number <= 4) {
+            event.preventDefault();
+            this.selectOption(number - 1);
+            return;
+          }
           if (event.key === " ") {
             event.preventDefault();
-            this.revealCard();
-          }
-          if (event.key === "Enter") {
-            event.preventDefault();
-            if (this.revealed) {
-              this.answerCurrent(true);
+            if (this.getCurrentAnswer()) {
+              this.nextQuestion();
             } else {
               this.revealCard();
             }
+            return;
           }
-          if (event.key === "ArrowUp") {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            if (this.getCurrentAnswer()) this.nextQuestion();
+            return;
+          }
+          if (["ArrowUp", "ArrowLeft", "ArrowRight"].includes(event.key)) {
             event.preventDefault();
             this.skipCurrent();
           }
@@ -1233,20 +1577,26 @@
           const card = event.target.closest(".study-card");
           if (!card) return;
           this.touch.active = true;
+          this.touch.startX = event.touches[0].clientX;
           this.touch.startY = event.touches[0].clientY;
+          this.touch.lastX = this.touch.startX;
           this.touch.lastY = this.touch.startY;
         },
 
         handleTouchMove(event) {
           if (!this.touch.active) return;
+          this.touch.lastX = event.touches[0].clientX;
           this.touch.lastY = event.touches[0].clientY;
         },
 
         handleTouchEnd() {
           if (!this.touch.active) return;
-          const delta = this.touch.startY - this.touch.lastY;
+          const deltaX = this.touch.lastX - this.touch.startX;
+          const deltaY = this.touch.startY - this.touch.lastY;
+          const horizontalSwipe = Math.abs(deltaX) > 72 && Math.abs(deltaX) >= Math.abs(deltaY);
+          const upwardSwipe = deltaY > 72 && deltaY > Math.abs(deltaX);
           this.touch.active = false;
-          if (delta > 72) {
+          if (horizontalSwipe || upwardSwipe) {
             this.skipCurrent();
           }
         },
@@ -1254,10 +1604,11 @@
         renderHome() {
           this.view = "home";
           this.session = null;
+          this.resetAutoSpeak();
           const today = DateUtil.todayKey();
-          const goal = this.state.settings.dailyGoal;
           const todayCount = this.getDailyCount(today);
-          const progress = Math.min(100, Math.round((todayCount / goal) * 100));
+          const checkedIn = todayCount > 0;
+          const checkInProgress = checkedIn ? 100 : 0;
           const dueCount = this.getFilteredWords().filter((word) => this.isDue(word)).length;
           const filterLabel = this.state.settings.selectedTypes.length
             ? this.state.settings.selectedTypes.join("、")
@@ -1268,21 +1619,21 @@
               <div class="home-hero">
                 <div class="today-line">
                   <span>${this.formatDisplayDate(today)}</span>
-                  <span>${Vocabulary.length} 個 N5 核心詞</span>
+                  <span>${Vocabulary.length} 個 N5 核心詞・${filterLabel}</span>
                 </div>
                 <h1 class="home-title">ことば<span>滑動學日語</span></h1>
-                <button class="primary-action" type="button" data-action="start-session"${todayCount >= goal ? " disabled" : ""}>
-                  ${todayCount >= goal ? "今日目標完成" : `開始今日學習・${dueCount} 個到期`}
+                <button class="primary-action" type="button" data-action="start-session">
+                  ${todayCount ? `繼續學習・今日已練 ${todayCount} 詞` : `開始打卡・${dueCount} 個到期`}
                 </button>
               </div>
 
               <section class="stats-grid" aria-label="學習數據">
                 <article class="stat-card progress-card">
-                  <div class="progress-ring" style="--progress: ${progress}">
+                  <div class="progress-ring" style="--progress: ${checkInProgress}">
                     <div class="progress-ring-inner">
                       <div>
-                        <strong>${todayCount}/${goal}</strong>
-                        <span>今日目標</span>
+                        <strong>${checkedIn ? "已打卡" : "未打卡"}</strong>
+                        <span>今日狀態</span>
                       </div>
                     </div>
                   </div>
@@ -1292,14 +1643,16 @@
                   <p class="stat-value">${this.state.stats.streak}<span class="stat-unit"> 天</span></p>
                 </article>
                 <article class="stat-card">
+                  <p class="stat-label">今日練習</p>
+                  <p class="stat-value">${todayCount}<span class="stat-unit"> 詞</span></p>
+                </article>
+                <article class="stat-card">
                   <p class="stat-label">累計學習</p>
                   <p class="stat-value">${this.state.stats.totalStudied}<span class="stat-unit"> 詞</span></p>
                 </article>
-                <article class="stat-card">
-                  <p class="stat-label">目前篩選</p>
-                  <p class="stat-value" style="font-size: 24px; line-height: 1.25;">${filterLabel}</p>
-                </article>
               </section>
+
+              ${this.renderWeaknessPanel()}
 
               <section class="week-panel" aria-label="本週學習日曆">
                 <h2 class="section-title">本週學習日曆 <span class="stat-unit">有學習會變綠</span></h2>
@@ -1311,6 +1664,7 @@
 
         renderSettings() {
           this.view = "settings";
+          this.resetAutoSpeak();
           const selected = this.state.settings.selectedTypes;
           this.root.innerHTML = `
             <section class="view settings-view">
@@ -1320,14 +1674,8 @@
               </div>
               <section class="settings-panel">
                 <div class="setting-group">
-                  <p class="setting-label">每日目標</p>
-                  <div class="segmented">
-                    ${GOALS.map((goal) => `
-                      <button class="segment-button ${this.state.settings.dailyGoal === goal ? "active" : ""}" type="button" data-action="set-goal" data-value="${goal}">
-                        ${goal}
-                      </button>
-                    `).join("")}
-                  </div>
+                  <p class="setting-label">學習節奏</p>
+                  <p class="settings-meta">每日打卡，不設上限。想停就停，想繼續就直接下一輪。</p>
                 </div>
 
                 <div class="setting-group">
@@ -1364,7 +1712,7 @@
           `;
         },
 
-        renderStudy() {
+        renderStudy({ animate = true } = {}) {
           this.view = "study";
           const word = this.getCurrentWord();
           if (!word) {
@@ -1372,82 +1720,160 @@
             return;
           }
 
-          const progress = Math.round((this.session.answered / this.session.target) * 100);
+          const question = this.getCurrentQuestion();
+          const answer = this.getCurrentAnswer();
+          const progress = Math.min(100, Math.round((this.session.answered / Math.max(1, this.session.target)) * 100));
+          const hint = answer
+            ? "Enter 或空白鍵下一題・答錯的詞會在本輪後段回來一次"
+            : "1-4 選答案・空白鍵或點卡片不熟揭曉・←/→、上滑或左右滑換下一張";
           this.root.innerHTML = `
             <section class="view study-view">
               <div class="study-status">
                 <div class="study-status-row">
-                  <span>${this.session.answered}/${this.session.target}</span>
-                  <span>${word.tags.join("・")}</span>
+                  <span>本輪 ${this.session.answered} 詞</span>
+                  <span>${QUIZ_MODE_LABELS[question.mode]}</span>
                 </div>
                 <div class="progress-track" aria-label="本次學習進度">
                   <div class="progress-fill" style="--width: ${progress}%"></div>
                 </div>
               </div>
               <div class="card-stage">
-                ${this.renderCard(word)}
+                ${this.renderCard(word, question, answer, animate)}
               </div>
-              <p class="study-hint">空白鍵揭曉・Enter 記住・方向鍵上或上滑跳過</p>
+              <p class="study-hint">${hint}</p>
             </section>
           `;
 
           requestAnimationFrame(() => {
             const card = this.root.querySelector(".study-card");
             if (card) card.classList.remove("entering");
+            if (answer) {
+              const nextButton = this.root.querySelector('[data-action="next-question"]');
+              if (nextButton) nextButton.focus({ preventScroll: true });
+            }
+            this.scheduleAutoSpeak(word, answer ? "answer" : "prompt");
           });
         },
 
-        renderCard(word) {
+        renderCard(word, question, answer, animate) {
           return `
-            <article class="study-card entering ${this.revealed ? "revealed" : ""}" aria-label="單字卡 ${word.kanji}">
-              <div class="card-front">
-                <div class="type-row">
-                  <span class="type-tag">${word.type}</span>
-                  ${word.tags.slice(0, 2).map((tag) => `<span class="tag-chip">${tag}</span>`).join("")}
-                </div>
-                <h2 class="word-kanji ${word.kanji.length >= 4 ? "compact" : ""}">${word.kanji}</h2>
-                <p class="word-reading">${word.reading}</p>
-                <button class="speak-button" type="button" data-action="speak" aria-label="播放日語發音" title="播放日語發音">♪</button>
+            <article class="study-card ${animate ? "entering" : ""} ${answer ? "revealed" : ""}" aria-label="測驗 ${word.kanji}">
+              ${this.renderQuestionPrompt(word, question, answer)}
+              <div class="quiz-options" role="list" aria-label="四個選項">
+                ${question.options.map((option, index) => `
+                  <button class="quiz-option ${this.getOptionClass(option, index, answer)}" type="button" data-action="select-option" data-value="${index}" ${answer ? "disabled" : ""}>
+                    <span class="option-index">${index + 1}</span>
+                    <span class="option-text">
+                      <span class="option-label">${option.label}</span>
+                      ${option.subLabel ? `<span class="option-sub">${option.subLabel}</span>` : ""}
+                    </span>
+                  </button>
+                `).join("")}
               </div>
-              <div class="reveal-panel ${this.revealed ? "revealed" : ""}" ${this.revealed ? 'style="max-height: 640px !important; opacity: 1 !important; margin-top: 14px !important; border-top-color: var(--border) !important;"' : ""}>
-                <p class="meaning-cn">${word.meaning}</p>
-                <div class="example-box">
-                  <p class="example-ja">${word.example}</p>
-                  <p class="example-cn">${word.exampleCn}</p>
-                </div>
-                <div class="answer-actions">
-                  <button class="remember-button" type="button" data-action="remember">記住了 ✓</button>
-                  <button class="unsure-button" type="button" data-action="unsure">還不太熟</button>
-                </div>
+              ${answer ? "" : `<button class="hesitant-action" type="button" data-action="mark-hesitant">不太熟，先看答案</button>`}
+              <div class="reveal-panel ${answer ? "revealed" : ""}">
+                ${answer ? this.renderResultPanel(word, question, answer) : ""}
               </div>
             </article>
           `;
         },
 
+        renderQuestionPrompt(word, question, answer) {
+          const tags = word.tags.slice(0, 2).map((tag) => `<span class="tag-chip">${tag}</span>`).join("");
+          if (question.mode === "cn-to-ja") {
+            return `
+              <div class="card-front">
+                <div class="type-row">
+                  <span class="type-tag">${word.type}</span>
+                  ${tags}
+                  <span class="quiz-mode">${QUIZ_MODE_LABELS[question.mode]}</span>
+                </div>
+                <p class="meaning-prompt">${word.meaning}</p>
+                ${answer ? `<p class="word-reading">正解：${word.kanji}・${word.reading}</p>` : `<p class="word-reading">選出對應的日文</p>`}
+              </div>
+            `;
+          }
+
+          return `
+            <div class="card-front">
+              <div class="type-row">
+                <span class="type-tag">${word.type}</span>
+                ${tags}
+                <span class="quiz-mode">${QUIZ_MODE_LABELS[question.mode]}</span>
+              </div>
+              <h2 class="word-kanji ${word.kanji.length >= 4 ? "compact" : ""}">${word.kanji}</h2>
+              <p class="word-reading">${word.reading}</p>
+              <button class="speak-button" type="button" data-action="speak" aria-label="播放日語發音" title="播放日語發音">♪</button>
+            </div>
+          `;
+        },
+
+        renderResultPanel(word, question, answer) {
+          const title = RESULT_LABELS[answer.result];
+          const correctText = question.mode === "ja-to-cn"
+            ? word.meaning
+            : `${word.kanji}（${word.reading}）`;
+          const detail = answer.result === "wrong"
+            ? `正解是 ${correctText}`
+            : `正解：${correctText}`;
+          const nextLabel = this.session.queue.length > 1 ? "下一題" : "看小結";
+          return `
+            <div class="result-callout ${answer.result}">
+              <p class="result-title">${title}</p>
+              <p class="result-detail">${detail}</p>
+            </div>
+            <p class="meaning-cn">${word.meaning}</p>
+            <div class="example-box">
+              <p class="example-ja">${word.example}</p>
+              <p class="example-cn">${word.exampleCn}</p>
+            </div>
+            <div class="answer-actions">
+              <button class="primary-action" type="button" data-action="next-question">${nextLabel}</button>
+              <button class="secondary-action" type="button" data-action="speak">播放發音 ♪</button>
+            </div>
+          `;
+        },
+
         renderComplete() {
           this.view = "complete";
-          const session = this.session || { newWords: 0, answered: 0 };
+          this.resetAutoSpeak();
+          const session = this.session || this.createEmptySession();
+          this.lastMistakeIds = session.wrongWordIds ? session.wrongWordIds.slice() : [];
+          const accuracy = session.answered
+            ? Math.round((session.correct / session.answered) * 100)
+            : 0;
           const message = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
           this.root.innerHTML = `
             <section class="view complete-view">
               <section class="complete-panel">
-                <h1 class="complete-title">今日完成</h1>
+                <h1 class="complete-title">${session.mode === "mistakes" ? "錯題練完" : "本輪小結"}</h1>
                 <p class="complete-copy">${message}</p>
                 <div class="complete-stats" aria-label="本次完成數據">
+                  <div class="complete-stat accuracy-stat">
+                    <strong>${accuracy}%</strong>
+                    <span>本次正確率</span>
+                  </div>
+                  <div class="complete-stat">
+                    <strong>${session.correct}</strong>
+                    <span>答對數</span>
+                  </div>
+                  <div class="complete-stat">
+                    <strong>${session.wrong}</strong>
+                    <span>答錯數</span>
+                  </div>
+                  <div class="complete-stat">
+                    <strong>${session.hesitant}</strong>
+                    <span>猶豫/不熟</span>
+                  </div>
                   <div class="complete-stat">
                     <strong>${session.newWords}</strong>
                     <span>本次新詞</span>
                   </div>
-                  <div class="complete-stat">
-                    <strong>${this.state.stats.streak}</strong>
-                    <span>連續天數</span>
-                  </div>
-                  <div class="complete-stat">
-                    <strong>${this.state.stats.totalStudied}</strong>
-                    <span>累計總數</span>
-                  </div>
                 </div>
-                <button class="primary-action" type="button" data-action="go-home">回首頁</button>
+                ${this.renderMistakeSummary(session)}
+                ${session.wrongWordIds && session.wrongWordIds.length ? `<button class="secondary-action" type="button" data-action="practice-mistakes">再練錯題</button>` : ""}
+                <button class="primary-action" type="button" data-action="start-session">繼續學習</button>
+                <button class="secondary-action" type="button" data-action="go-home">回首頁</button>
               </section>
             </section>
           `;
@@ -1457,8 +1883,8 @@
           this.view = "home";
           this.root.innerHTML = `
             <section class="view empty-state">
-              <h2>今天已經達標</h2>
-              <p>調高每日目標或換一個分類，就可以繼續練習。</p>
+              <h2>這裡暫時沒有單字</h2>
+              <p>換一個分類，就可以繼續打卡練習。</p>
               <button class="primary-action" type="button" data-action="open-settings">調整設定</button>
               <button class="secondary-action" type="button" data-action="go-home">回首頁</button>
             </section>
@@ -1476,18 +1902,74 @@
           }).join("");
         },
 
-        startSession() {
-          const today = DateUtil.todayKey();
-          const remaining = Math.max(0, this.state.settings.dailyGoal - this.getDailyCount(today));
-          if (remaining <= 0) {
-            this.renderEmptySession();
-            return;
-          }
+        renderWeaknessPanel() {
+          const weakWords = this.getWeakWords(3);
+          return `
+            <section class="weakness-panel" aria-label="弱點概況">
+              <h2 class="section-title">弱點快掃 <span class="stat-unit">錯題優先</span></h2>
+              ${weakWords.length ? `
+                <div class="weakness-list">
+                  ${weakWords.map(({ word, progress }) => `
+                    <div class="weakness-item">
+                      <div class="weakness-word">
+                        <strong>${word.kanji}</strong>
+                        <span>${word.reading}・${word.meaning}</span>
+                      </div>
+                      <span class="weakness-badge">錯 ${progress.wrongCount}・不熟 ${progress.hesitantCount}</span>
+                    </div>
+                  `).join("")}
+                </div>
+              ` : `<p class="weakness-empty">目前沒有明顯弱點。今天答題後，這裡會列出最需要回頭看的詞。</p>`}
+            </section>
+          `;
+        },
 
+        renderMistakeSummary(session) {
+          if (!session.wrongWordIds || !session.wrongWordIds.length) return "";
+          const words = session.wrongWordIds
+            .map((id) => Vocabulary.find((word) => word.id === id))
+            .filter(Boolean);
+          if (!words.length) return "";
+
+          return `
+            <div class="mistake-list" aria-label="本次錯題摘要">
+              <p class="mistake-heading">本次錯題</p>
+              ${words.map((word) => `
+                <div class="mistake-item">
+                  <div class="mistake-word">
+                    <strong>${word.kanji}</strong>
+                    <span>${word.reading}・${word.meaning}</span>
+                  </div>
+                  <span class="weakness-badge">${word.type}</span>
+                </div>
+              `).join("")}
+            </div>
+          `;
+        },
+
+        createEmptySession(mode = "daily") {
+          return {
+            mode,
+            queue: [],
+            target: 0,
+            answered: 0,
+            correct: 0,
+            wrong: 0,
+            hesitant: 0,
+            newWords: 0,
+            newWordIds: [],
+            wrongWordIds: [],
+            retryCounts: {},
+            currentQuestion: null,
+            currentAnswer: null
+          };
+        },
+
+        startSession() {
           const candidates = this.getFilteredWords();
           const dueWords = this.shuffle(candidates.filter((word) => this.isDue(word)));
           const laterWords = this.shuffle(candidates.filter((word) => !this.isDue(word)));
-          const queue = [...dueWords, ...laterWords].slice(0, remaining);
+          const queue = [...dueWords, ...laterWords].slice(0, FLOW_BATCH_SIZE);
 
           if (!queue.length) {
             this.renderEmptySession();
@@ -1495,23 +1977,70 @@
           }
 
           this.session = {
-            queue: queue.map((word) => word.id),
-            target: queue.length,
-            answered: 0,
-            newWords: 0,
-            newWordIds: []
+            ...this.createEmptySession("daily"),
+            queue: this.createQuestionQueue(queue),
+            target: queue.length
           };
           this.revealed = false;
+          this.resetAutoSpeak();
           this.renderStudy();
+        },
+
+        startMistakeSession() {
+          const ids = this.session && this.session.wrongWordIds && this.session.wrongWordIds.length
+            ? this.session.wrongWordIds
+            : (this.lastMistakeIds || []);
+          const uniqueIds = Array.from(new Set(ids));
+          const words = uniqueIds
+            .map((id) => Vocabulary.find((word) => word.id === id))
+            .filter(Boolean);
+
+          if (!words.length) {
+            this.showToast("這次沒有錯題可以再練。");
+            return;
+          }
+
+          const queue = this.shuffle(words);
+          this.session = {
+            ...this.createEmptySession("mistakes"),
+            queue: this.createQuestionQueue(queue),
+            target: queue.length
+          };
+          this.revealed = false;
+          this.resetAutoSpeak();
+          this.renderStudy();
+        },
+
+        createQuestionQueue(words) {
+          const offset = Math.floor(Math.random() * QUIZ_MODES.length);
+          return words.map((word, index) => ({
+            id: word.id,
+            mode: QUIZ_MODES[(index + offset) % QUIZ_MODES.length],
+            retry: false
+          }));
+        },
+
+        scheduleWrongRetry(item) {
+          const count = this.session.retryCounts[item.id] || 0;
+          if (count >= WRONG_RETRY_LIMIT) return;
+
+          this.session.retryCounts[item.id] = count + 1;
+          const retryItem = {
+            id: item.id,
+            mode: this.getOppositeMode(item.mode),
+            retry: true
+          };
+          const insertIndex = Math.min(
+            this.session.queue.length,
+            Math.max(2, Math.min(4, this.session.queue.length))
+          );
+          this.session.queue.splice(insertIndex, 0, retryItem);
+          this.session.target += 1;
         },
 
         revealCard() {
           if (this.view !== "study" || this.animating) return;
-          this.revealed = true;
-          const card = this.root.querySelector(".study-card");
-          if (card) card.classList.add("revealed");
-          const panel = this.root.querySelector(".reveal-panel");
-          if (panel) this.expandRevealPanel(panel);
+          this.markHesitant();
         },
 
         expandRevealPanel(panel) {
@@ -1522,29 +2051,73 @@
           panel.style.setProperty("border-top-color", "var(--border)", "important");
         },
 
-        answerCurrent(remembered) {
+        selectOption(index) {
           if (this.view !== "study" || this.animating) return;
+          if (this.getCurrentAnswer()) return;
+          const question = this.getCurrentQuestion();
+          const option = question.options[index];
+          if (!option) return;
+          this.answerCurrent(option.isCorrect ? "correct" : "wrong", option, index);
+        },
+
+        markHesitant() {
+          if (this.view !== "study" || this.animating) return;
+          if (this.getCurrentAnswer()) return;
+          this.answerCurrent("hesitant", null, null);
+        },
+
+        answerCurrent(result, selectedOption = null, selectedIndex = null) {
+          if (this.view !== "study" || this.animating) return;
+          if (this.getCurrentAnswer()) return;
+          const item = this.getCurrentItem();
           const word = this.getCurrentWord();
-          if (!word) return;
+          if (!item || !word) return;
 
           const progress = this.state.progress[word.id];
           const wasNew = !progress.seen;
           progress.seen = true;
           progress.studiedCount += 1;
           progress.lastStudied = DateUtil.todayKey();
-          SRS.update(progress, remembered);
+          SRS.update(progress, result);
 
           this.recordStudy();
           if (wasNew && !this.session.newWordIds.includes(word.id)) {
             this.session.newWordIds.push(word.id);
             this.session.newWords += 1;
           }
+          this.session[result] += 1;
           this.session.answered += 1;
-          Store.save(this.state);
+          this.session.currentAnswer = {
+            id: word.id,
+            result,
+            selectedIndex,
+            selectedOptionId: selectedOption ? selectedOption.id : null
+          };
 
+          if (result === "wrong") {
+            if (!this.session.wrongWordIds.includes(word.id)) {
+              this.session.wrongWordIds.push(word.id);
+            }
+            this.scheduleWrongRetry(item);
+          }
+
+          Store.save(this.state);
+          this.revealed = true;
+          this.renderStudy({ animate: false });
+        },
+
+        nextQuestion() {
+          if (this.view !== "study" || this.animating || !this.session) return;
+          if (!this.getCurrentAnswer()) {
+            this.showToast("先選一個答案，或按空白鍵標記不熟。");
+            return;
+          }
           this.exitCard(() => {
             this.session.queue.shift();
+            this.session.currentQuestion = null;
+            this.session.currentAnswer = null;
             this.revealed = false;
+            this.resetAutoSpeak();
             if (this.session.queue.length) {
               this.renderStudy();
             } else {
@@ -1554,11 +2127,19 @@
         },
 
         skipCurrent() {
-          if (this.view !== "study" || this.animating || !this.session || this.session.queue.length < 2) return;
+          if (this.view !== "study" || this.animating || !this.session) return;
+          if (this.getCurrentAnswer()) {
+            this.nextQuestion();
+            return;
+          }
+          if (this.session.queue.length < 2) return;
           this.exitCard(() => {
             const skipped = this.session.queue.shift();
             this.session.queue.push(skipped);
+            this.session.currentQuestion = null;
+            this.session.currentAnswer = null;
             this.revealed = false;
+            this.resetAutoSpeak();
             this.renderStudy();
           });
         },
@@ -1578,17 +2159,60 @@
         },
 
         speakCurrent(event) {
-          event.stopPropagation();
+          if (event) event.stopPropagation();
+          this.clearAutoSpeakTimer();
           const word = this.getCurrentWord();
+          this.speakWord(word, { notifyUnsupported: true });
+        },
+
+        scheduleAutoSpeak(word, phase) {
+          if (!word) return;
+          const item = this.getCurrentItem();
+          const answer = this.getCurrentAnswer();
+          const marker = [
+            item ? item.id : word.id,
+            item ? item.mode : "",
+            item && item.retry ? "retry" : "main",
+            phase,
+            this.session ? this.session.answered : 0,
+            answer ? answer.result : "pending"
+          ].join(":");
+
+          if (this.autoSpeakMarker === marker) return;
+          this.autoSpeakMarker = marker;
+          this.clearAutoSpeakTimer();
+          this.autoSpeakTimer = window.setTimeout(() => {
+            const currentWord = this.getCurrentWord();
+            const currentAnswer = this.getCurrentAnswer();
+            if (this.view !== "study" || !currentWord || currentWord.id !== word.id) return;
+            if (phase === "prompt" && currentAnswer) return;
+            if (phase === "answer" && !currentAnswer) return;
+            this.speakWord(word);
+          }, phase === "answer" ? 180 : 360);
+        },
+
+        clearAutoSpeakTimer() {
+          window.clearTimeout(this.autoSpeakTimer);
+          this.autoSpeakTimer = null;
+        },
+
+        resetAutoSpeak() {
+          this.clearAutoSpeakTimer();
+          this.autoSpeakMarker = null;
+        },
+
+        speakWord(word, { notifyUnsupported = false } = {}) {
           if (!word || !("speechSynthesis" in window)) {
+            if (!notifyUnsupported) return false;
             this.showToast("這個瀏覽器不支援語音朗讀。");
-            return;
+            return false;
           }
           const utterance = new SpeechSynthesisUtterance(word.kanji);
           utterance.lang = "ja-JP";
           utterance.rate = 0.85;
           window.speechSynthesis.cancel();
           window.speechSynthesis.speak(utterance);
+          return true;
         },
 
         recordStudy() {
@@ -1606,13 +2230,6 @@
           }
           this.state.stats.daily[today].count += 1;
           this.state.stats.totalStudied += 1;
-        },
-
-        setGoal(goal) {
-          if (!GOALS.includes(goal)) return;
-          this.state.settings.dailyGoal = goal;
-          Store.save(this.state);
-          this.renderSettings();
         },
 
         toggleFilter(value) {
@@ -1671,14 +2288,113 @@
           return Vocabulary.filter((word) => selected.includes(word.type));
         },
 
+        getWeakWords(limit) {
+          return Vocabulary.map((word) => {
+            const progress = this.state.progress[word.id];
+            const dueBoost = this.isDue(word) && progress.seen ? 2 : 0;
+            const lowEaseBoost = Math.max(0, 2.5 - progress.ease);
+            return {
+              word,
+              progress,
+              score: progress.wrongCount * 3 + progress.hesitantCount * 1.5 + dueBoost + lowEaseBoost
+            };
+          })
+            .filter(({ progress, score }) => progress.seen && score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, limit);
+        },
+
         isDue(word) {
           return this.state.progress[word.id].due <= DateUtil.todayKey();
         },
 
-        getCurrentWord() {
+        getCurrentItem() {
           if (!this.session || !this.session.queue.length) return null;
-          const id = this.session.queue[0];
-          return Vocabulary.find((word) => word.id === id);
+          const item = this.session.queue[0];
+          if (typeof item === "string") {
+            return { id: item, mode: QUIZ_MODES[0], retry: false };
+          }
+          return item;
+        },
+
+        getCurrentWord() {
+          const item = this.getCurrentItem();
+          if (!item) return null;
+          return Vocabulary.find((word) => word.id === item.id);
+        },
+
+        getCurrentQuestion() {
+          const item = this.getCurrentItem();
+          const word = this.getCurrentWord();
+          if (!item || !word) return null;
+          if (
+            this.session.currentQuestion &&
+            this.session.currentQuestion.id === item.id &&
+            this.session.currentQuestion.mode === item.mode
+          ) {
+            return this.session.currentQuestion;
+          }
+          this.session.currentQuestion = this.buildQuestion(word, item.mode);
+          return this.session.currentQuestion;
+        },
+
+        getCurrentAnswer() {
+          const item = this.getCurrentItem();
+          if (!item || !this.session || !this.session.currentAnswer) return null;
+          return this.session.currentAnswer.id === item.id ? this.session.currentAnswer : null;
+        },
+
+        buildQuestion(word, mode) {
+          return {
+            id: word.id,
+            mode,
+            options: this.buildOptions(word, mode)
+          };
+        },
+
+        buildOptions(word, mode) {
+          const labelFor = (item) => mode === "ja-to-cn" ? item.meaning : item.kanji;
+          const subLabelFor = (item) => mode === "ja-to-cn" ? "" : item.reading;
+          const usedLabels = new Set([labelFor(word)]);
+          const distractors = [];
+
+          this.getDistractorPool(word).forEach((candidate) => {
+            const label = labelFor(candidate);
+            if (distractors.length >= 3 || usedLabels.has(label)) return;
+            usedLabels.add(label);
+            distractors.push(candidate);
+          });
+
+          const optionWords = this.shuffle([word, ...distractors]).slice(0, 4);
+          return optionWords.map((item) => ({
+            id: item.id,
+            label: labelFor(item),
+            subLabel: subLabelFor(item),
+            isCorrect: item.id === word.id
+          }));
+        },
+
+        getDistractorPool(word) {
+          const wordTags = new Set(word.tags);
+          return Vocabulary.filter((candidate) => candidate.id !== word.id)
+            .map((candidate) => {
+              const tagOverlap = candidate.tags.filter((tag) => wordTags.has(tag)).length;
+              const score = (candidate.type === word.type ? 8 : 0) + tagOverlap * 3 + Math.random();
+              return { candidate, score };
+            })
+            .sort((a, b) => b.score - a.score)
+            .map(({ candidate }) => candidate);
+        },
+
+        getOptionClass(option, index, answer) {
+          if (!answer) return "";
+          if (option.isCorrect) return "correct";
+          if (answer.selectedIndex === index && answer.result === "wrong") return "wrong";
+          return "dimmed";
+        },
+
+        getOppositeMode(mode) {
+          return mode === "ja-to-cn" ? "cn-to-ja" : "ja-to-cn";
         },
 
         getDailyCount(key) {
